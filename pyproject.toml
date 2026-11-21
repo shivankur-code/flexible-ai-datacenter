@@ -3,7 +3,7 @@ name = "gridflex"
 version = "0.0.1"
 description = "SLO-grounded AI data-center flexibility under network-constrained OPF, with feasibility-guaranteed learned dispatch"
 requires-python = ">=3.10"
-dependencies = ["numpy", "scipy", "pandas", "highspy", "pandapower", "matplotlib", "pyyaml"]
+dependencies = ["numpy", "scipy", "pandas", "highspy>=1.7", "matplotlib", "pyyaml"]
 
 [project.optional-dependencies]
 learn = ["torch"]

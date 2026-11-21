@@ -144,7 +144,7 @@ spread; SLO violation rate and p99 TTFT/TPOT; solver optimality gap, violations 
 | Phase | Output | Est. |
 |---|---|---|
 | P0 Scaffold | repo, plan, package layout | done |
-| P1 Grid | RTS-GMLC + IEEE-118 loaders, multi-period DC-OPF in HiGHS, LMP/LME extraction, unit tests (balance, line limits) | 2 d |
+| P1 Grid | RTS-GMLC loader, multi-period DC-OPF in HiGHS, LMP/LME extraction, unit tests (balance, line limits) | **done**. IEEE-118 moved to P5: pandapower's case118 has placeholder line ratings, so it needs NREL's extended-118 ratings and profiles |
 | P2 Fleet | trace loader, serving/power model, per-hour SLO check, envelope polytope export | 2–3 d |
 | P3 Value | 4 operating modes, a year rolled, Figs 2–4, **X% and Y% filled** | 2 d |
 | P4 Solver | dataset generation, DC3 + gauge (+ FSNet), Fig. 5, **Z% and N× filled** | 3 d |
