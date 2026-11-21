@@ -1,4 +1,4 @@
-# carbon-aware-llm-fleet
+# flexible-ai-datacenter
 
 **How flexible must an AI data center be?** We study SLO-grounded flexibility of LLM inference
 fleets, its value under network-constrained optimal power flow, and feasibility-guaranteed
