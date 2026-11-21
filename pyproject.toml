@@ -1,0 +1,14 @@
+[project]
+name = "gridflex"
+version = "0.0.1"
+description = "SLO-grounded AI data-center flexibility under network-constrained OPF, with feasibility-guaranteed learned dispatch"
+requires-python = ">=3.10"
+dependencies = ["numpy", "scipy", "pandas", "highspy", "pandapower", "matplotlib", "pyyaml"]
+
+[project.optional-dependencies]
+learn = ["torch"]
+dev = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,5 @@
+# Data (not committed; download scripts go in data/raw/)
+- NREL RTS-GMLC (grid, fuel types, heat rates, hourly wind/solar/load)
+- IEEE-118 + NREL high-renewable extension (hourly profiles, generator types)
+- Azure Public Dataset: LLM inference traces (2023, 2024)
+- Published GPU serving power/latency measurements (ML.ENERGY/Zeus, DynamoLLM, POLCA, Splitwise)
