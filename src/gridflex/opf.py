@@ -40,50 +40,47 @@ VOLL = 10_000.0  # $/MWh
 
 @dataclass
 class DataCenter:
-    """A data-center load with a linear flexibility envelope over the horizon.
+    """A data-center load with a linear flexibility envelope over the horizon (arrays have length T).
 
-    All arrays have length ``T``, the horizon. ``cum_min`` / ``cum_max`` bound
-    the cumulative energy served, ``sum_{tau<=t} d[tau]`` (MWh). Use ``None``
-    to leave a bound off.
+    Power drawn is ``d = firm - shed + flex``, where
+
+    * ``firm``: power at nominal operation, excluding deferrable work (MW)
+    * ``shed`` in ``[0, shed_max]``: power-capping that spends SLO headroom (MW).
+      Total ``sum(shed)`` is limited to ``shed_budget`` (MWh) and costs
+      ``shed_cost`` $/MWh.
+    * ``flex`` in ``[0, flex_max]``: deferrable (batch) work. Its cumulative
+      energy ``sum_{tau<=t} flex`` must lie in ``[cum_min[t], cum_max[t]]``:
+      no earlier than arrival, no later than the deadline. With ``late_cost``
+      set, missing ``cum_min`` is allowed at ``late_cost`` $ per MWh-hour of
+      lateness, and the lateness is reported.
     """
 
     bus: int                       # external bus id
-    p_min: np.ndarray
-    p_max: np.ndarray
-    ramp: float = np.inf           # MW/h
+    firm: np.ndarray
+    shed_max: np.ndarray | None = None
+    shed_budget: float = np.inf
+    shed_cost: float = 0.0
+    flex_max: np.ndarray | None = None
     cum_min: np.ndarray | None = None
     cum_max: np.ndarray | None = None
+    late_cost: float | None = None
+    ramp: float = np.inf           # MW/h on total power d
     name: str = "dc"
+
+    def __post_init__(self):
+        self.firm = np.asarray(self.firm, dtype=float)
+        T = len(self.firm)
+        z = np.zeros(T)
+        self.shed_max = z if self.shed_max is None else np.asarray(self.shed_max, dtype=float)
+        self.flex_max = z if self.flex_max is None else np.asarray(self.flex_max, dtype=float)
+
+    @property
+    def T(self) -> int:
+        return len(self.firm)
 
     @classmethod
     def inflexible(cls, bus: int, load, name: str = "dc") -> "DataCenter":
-        load = np.asarray(load, dtype=float)
-        return cls(bus=bus, p_min=load, p_max=load, name=name)
-
-    @classmethod
-    def shiftable(cls, bus: int, load, flex: float, deadline_h: int, name: str = "dc") -> "DataCenter":
-        """Simple placeholder envelope until :mod:`gridflex.envelope` lands.
-
-        A fraction ``flex`` of each hour's energy may be deferred by up to
-        ``deadline_h`` hours (never advanced). Power stays within
-        ``[(1-flex) * load, (1+flex) * peak]``, and all energy is served by
-        the end of the horizon.
-        """
-        load = np.asarray(load, dtype=float)
-        T = len(load)
-        cum = np.cumsum(load)
-        firm = np.cumsum((1 - flex) * load)
-        due = np.concatenate([np.zeros(deadline_h), np.cumsum(flex * load)[: max(T - deadline_h, 0)]])[:T]
-        cum_min = firm + due
-        cum_min[-1] = cum[-1]
-        return cls(
-            bus=bus,
-            p_min=(1 - flex) * load,
-            p_max=np.full(T, (1 + flex) * load.max()),
-            cum_min=cum_min,
-            cum_max=cum,
-            name=name,
-        )
+        return cls(bus=bus, firm=np.asarray(load, dtype=float), name=name)
 
 
 @dataclass
@@ -94,7 +91,10 @@ class OPFResult:
     objective: float
     p: np.ndarray            # (G, T)
     shed: np.ndarray         # (N, T)
-    d: np.ndarray            # (K, T)
+    d: np.ndarray            # (K, T) total data-center power
+    dc_shed: np.ndarray      # (K, T)
+    dc_flex: np.ndarray      # (K, T)
+    dc_late: np.ndarray      # (K, T) MWh of deferrable work behind its deadline
     inj: np.ndarray          # (N, T)
     flow: np.ndarray         # (L, T)
     lmp: np.ndarray          # (N, T) $/MWh
@@ -169,11 +169,16 @@ def solve_opf(
     shed_ub = load.T.ravel() if allow_shed else 0.0
     s_idx = lp.add_vars(N * T, 0.0, shed_ub, VOLL).reshape(T, N)
     if K:
-        dmin = np.stack([dc.p_min for dc in datacenters], 1)  # (T, K)
-        dmax = np.stack([dc.p_max for dc in datacenters], 1)
-        d_idx = lp.add_vars(K * T, dmin.ravel(), dmax.ravel(), 0.0).reshape(T, K)
+        d_idx = lp.add_vars(K * T, 0.0, inf, 0.0).reshape(T, K)
+        sh_idx = lp.add_vars(K * T, 0.0, np.stack([dc.shed_max for dc in datacenters], 1).ravel(),
+                             np.tile([dc.shed_cost for dc in datacenters], T)).reshape(T, K)
+        fx_idx = lp.add_vars(K * T, 0.0, np.stack([dc.flex_max for dc in datacenters], 1).ravel(), 0.0).reshape(T, K)
     else:
-        d_idx = np.zeros((T, 0), dtype=int)
+        d_idx = sh_idx = fx_idx = np.zeros((T, 0), dtype=int)
+    late_idx = {}
+    for k, dc in enumerate(datacenters):
+        if dc.late_cost is not None and dc.cum_min is not None:
+            late_idx[k] = lp.add_vars(T, 0.0, inf, dc.late_cost)
     i_idx = lp.add_vars(N * T, -inf, inf, 0.0).reshape(T, N)
 
     dc_bus = np.array([net.bus_index(dc.bus) for dc in datacenters], dtype=int)
@@ -204,17 +209,26 @@ def solve_opf(
             lp.add_rows(np.r_[np.arange(n), np.arange(n)], np.r_[p_idx[t, rg], p_idx[t - 1, rg]], np.r_[np.ones(n), -np.ones(n)], -R, R, n)
         if p_init is not None:
             lp.add_rows(np.arange(n), p_idx[0, rg], np.ones(n), p_init[rg] - R, p_init[rg] + R, n)
-    # data-center ramps and cumulative energy
+    # data centers: d = firm - shed + flex, ramps, shed budget, cumulative deferrable energy
     for k, dc in enumerate(datacenters):
+        r = np.r_[np.arange(T), np.arange(T), np.arange(T)]
+        lp.add_rows(r, np.r_[d_idx[:, k], sh_idx[:, k], fx_idx[:, k]], np.r_[np.ones(T), np.ones(T), -np.ones(T)], dc.firm, dc.firm, T)
         if np.isfinite(dc.ramp):
             for t in range(1, T):
                 lp.add_rows([0, 0], [d_idx[t, k], d_idx[t - 1, k]], [1.0, -1.0], -dc.ramp, dc.ramp, 1)
+        if np.isfinite(dc.shed_budget) and dc.shed_max.any():
+            lp.add_rows(np.zeros(T, int), sh_idx[:, k], np.ones(T), -inf, dc.shed_budget, 1)
         if dc.cum_min is not None or dc.cum_max is not None:
             lo = dc.cum_min if dc.cum_min is not None else np.full(T, -inf)
             hi = dc.cum_max if dc.cum_max is not None else np.full(T, inf)
             r = np.concatenate([np.full(t + 1, t) for t in range(T)])
-            c = np.concatenate([d_idx[: t + 1, k] for t in range(T)])
-            lp.add_rows(r, c, np.ones(len(c)), lo, hi, T)
+            c = np.concatenate([fx_idx[: t + 1, k] for t in range(T)])
+            v = np.ones(len(c))
+            if k in late_idx:  # sum flex + late[t] >= cum_min[t]; the upper bound applies to flex alone
+                lp.add_rows(np.r_[r, np.arange(T)], np.r_[c, late_idx[k]], np.r_[v, np.ones(T)], lo, np.full(T, inf), T)
+                lp.add_rows(r, c, v, np.full(T, -inf), hi, T)
+            else:
+                lp.add_rows(r, c, v, lo, hi, T)
 
     A, c, lb, ub, rlo, rhi = lp.matrix()
     h = highspy.Highs()
@@ -249,6 +263,11 @@ def solve_opf(
     p = x[p_idx].T
     shed = x[s_idx].T
     d = x[d_idx].T if K else np.zeros((0, T))
+    dc_shed = x[sh_idx].T if K else np.zeros((0, T))
+    dc_flex = x[fx_idx].T if K else np.zeros((0, T))
+    dc_late = np.zeros((K, T))
+    for k, idx in late_idx.items():
+        dc_late[k] = x[idx]
     inj = x[i_idx].T
     flow = ptdf @ inj
     lmp = lmp_all[bus_rows].T
@@ -262,6 +281,9 @@ def solve_opf(
         p=p,
         shed=shed,
         d=d,
+        dc_shed=dc_shed,
+        dc_flex=dc_flex,
+        dc_late=dc_late,
         inj=inj,
         flow=flow,
         lmp=lmp,

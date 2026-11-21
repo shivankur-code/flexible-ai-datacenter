@@ -17,15 +17,20 @@ learned dispatch.
 See **[PLAN.md](PLAN.md)**.
 
 ## Status
-**Phase 1 done (grid).** The RTS-GMLC loader, multi-period DC-OPF (PTDF + HiGHS)
-with data-center envelopes, and LMPs/LMEs from the optimal basis are in place and
-tested. Fleet, envelope and learned-solver modules are still stubs.
+- **Phase 1 done (grid).** The RTS-GMLC loader, multi-period DC-OPF (PTDF + HiGHS),
+  and LMPs/LMEs from the optimal basis are in place and tested.
+- **Phase 2 done (fleet → envelope).** There is an SLO-aware replica simulator
+  (chunked-prefill continuous batching, roofline timing, power-cap physics),
+  driven by the 2024 Azure LLM inference trace. It produces hourly linear
+  envelopes (firm / sheddable / deferrable) that the OPF consumes directly.
+- Learned solvers and the experiments for phases 3–5 are next.
 
 ```bash
 pip install -e '.[dev]'
 python -m gridflex.datasets               # fetch RTS-GMLC (pinned commit) into data/raw/
-pytest -q                                 # 11 tests: toy 3-bus by hand + RTS feasibility, FD-checked LMP/LME
-python experiments/p1_baseline_year.py    # full-year baseline -> results/p1/
+pytest -q                                 # 19 tests
+python experiments/p1_baseline_year.py    # full-year grid baseline -> results/p1/
+python experiments/p2_envelope.py         # fleet tables, envelope, Fig. 2a-c -> results/p2/, paper/figures/
 ```
 
 ### Phase 1 baseline (RTS-GMLC 2020, no data center, 366 day-ahead OPFs)
@@ -64,3 +69,28 @@ experiments/     # one script per RQ -> results/*.csv + paper/figures
 data/raw/        # download scripts only (data not committed)
 paper/           # claims, figures, related work -> paper-orchestra
 ```
+
+### Phase 2 envelope (300 MW LLM-inference facility, default config)
+
+| | |
+|---|---|
+| Servers (8xH100, 70B-class, TP8) | 30,864 |
+| Mean / peak draw | 157 MW / 202 MW (load factor 0.52) |
+| Sheddable within SLO (power capping) | 7.7 MW mean, **4.9% of load** |
+| Deferrable batch energy (24 h deadline) | **19.8% of energy**; 62 MW mean headroom |
+| Batch energy efficiency | 4.6 J/token at a 50% power cap (vs 6.0 J/token uncapped) |
+
+![envelope](paper/figures/fig2b_envelope_week.png)
+
+Takeaways:
+- **Interactive serving offers little flexibility.** Under a p99 SLO of
+  TTFT 1 s / TPOT 100 ms, replicas provisioned at 80% of capacity can only be
+  capped to about 70% of TDP. Below that, SLO capacity collapses (Fig. 2a). That
+  leaves about 5% of load sheddable, rising to about 10% if the SLO is loosened
+  2x (Fig. 2c).
+- **Real flexibility depends on how much deferrable batch work there is.**
+  The shiftable share grows linearly with batch fill (Fig. 2c). Headline claims
+  like "25% flexible" really assume a batch share this large.
+- **Capping is more efficient for batch work.** 50% of TDP gives the lowest
+  J/token. Deferring batch work therefore also cuts its energy compared with
+  running it uncapped.

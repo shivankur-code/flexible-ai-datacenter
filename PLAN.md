@@ -145,8 +145,8 @@ spread; SLO violation rate and p99 TTFT/TPOT; solver optimality gap, violations 
 |---|---|---|
 | P0 Scaffold | repo, plan, package layout | done |
 | P1 Grid | RTS-GMLC loader, multi-period DC-OPF in HiGHS, LMP/LME extraction, unit tests (balance, line limits) | **done**. IEEE-118 moved to P5: pandapower's case118 has placeholder line ratings, so it needs NREL's extended-118 ratings and profiles |
-| P2 Fleet | trace loader, serving/power model, per-hour SLO check, envelope polytope export | 2–3 d |
-| P3 Value | 4 operating modes, a year rolled, Figs 2–4, **X% and Y% filled** | 2 d |
+| P2 Fleet | trace loader, serving/power model, per-hour SLO check, envelope polytope export | **done**. Fig. 2a–c. Interactive shed is about 5% of load; batch shift scales with batch share |
+| P3 Value | 4 operating modes, a year rolled, Figs 3–4, **X% and Y% filled**. Needs a rolling horizon that carries the real batch backlog across days, plus a terminal condition so deferral is not myopic | 2 d |
 | P4 Solver | dataset generation, DC3 + gauge (+ FSNet), Fig. 5, **Z% and N× filled** | 3 d |
 | P5 Map | RQ5 sweep, HiGHS verification, **Figure 1** | 2 d |
 | P6 Handoff | `paper/claims.md`, figures, CSVs, `related_work.md`, `refs.bib` → paper-orchestra | 0.5 d |

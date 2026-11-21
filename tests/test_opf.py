@@ -73,7 +73,7 @@ def test_toy_flexible_dc_moves_to_cheap_hours():
     net.gen_avail[0, 1] = 0.0  # coal is unavailable in hour 1
     base = np.array([50.0, 50.0])
     inflex = solve_opf(net, 0, 2, [DataCenter.inflexible(3, base)])
-    flex = solve_opf(net, 0, 2, [DataCenter(bus=3, p_min=np.zeros(2), p_max=np.full(2, 100.0),
+    flex = solve_opf(net, 0, 2, [DataCenter(bus=3, firm=np.zeros(2), flex_max=np.full(2, 100.0),
                                             cum_min=np.array([0.0, 100.0]), cum_max=np.array([100.0, 100.0]))])
     assert flex.d.sum() == pytest.approx(100.0)
     assert flex.gen_cost < inflex.gen_cost
@@ -140,10 +140,26 @@ def test_rts_marginals_match_finite_difference(rts_congested, bus):
     assert (r1.emissions - r0.emissions) / eps == pytest.approx(r0.lme[b, h], abs=1e-3)
 
 
-def test_rts_shiftable_dc_never_costs_more(rts_congested):
+def test_rts_flexible_dc_never_costs_more(rts_congested):
     t0 = 24 * 15
-    load = np.full(24, 300.0)
-    inflex = solve_opf(rts_congested, t0, 24, [DataCenter.inflexible(313, load)])
-    flex = solve_opf(rts_congested, t0, 24, [DataCenter.shiftable(313, load, flex=0.3, deadline_h=6)])
-    assert flex.d.sum() == pytest.approx(load.sum(), rel=1e-6)
+    firm = np.full(24, 200.0)
+    batch = np.full(24, 100.0)  # MWh/h of deferrable work, 6 h deadline
+    cum = np.cumsum(batch)
+    due = np.r_[np.zeros(6), cum[:-6]]
+    due[-1] = cum[-1]
+    inflex = solve_opf(rts_congested, t0, 24, [DataCenter.inflexible(313, firm + batch)])
+    flex = solve_opf(rts_congested, t0, 24, [DataCenter(313, firm=firm, shed_max=np.full(24, 20.0), shed_budget=80.0,
+                                                         flex_max=np.full(24, 200.0), cum_min=due, cum_max=cum)])
+    assert flex.dc_flex.sum() == pytest.approx(batch.sum(), rel=1e-6)
+    assert flex.dc_shed.sum() <= 80.0 + 1e-6
+    np.testing.assert_allclose(flex.d, firm - flex.dc_shed + flex.dc_flex, atol=1e-6)
     assert flex.objective <= inflex.objective + 1e-6
+
+
+def test_late_penalty_makes_infeasible_deadline_soft():
+    net = toy_network(rating=1e4, T=3, load_bus2=0.0)
+    # 300 MWh due by hour 1, but only 100 MW of flex per hour
+    dc = DataCenter(3, firm=np.zeros(3), flex_max=np.full(3, 100.0), cum_min=np.array([0.0, 300.0, 300.0]),
+                    cum_max=np.full(3, 300.0), late_cost=1000.0)
+    r = solve_opf(net, 0, 3, [dc])
+    np.testing.assert_allclose(r.dc_late[0], [0.0, 100.0, 0.0], atol=1e-6)
