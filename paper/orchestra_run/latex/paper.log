@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.22)  22 NOV 2026 11:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.22)  22 NOV 2026 11:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -360,6 +360,9 @@ Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@dima=\skip66
 \bigstrutjot=\dimen174
 )
+(/usr/share/texlive/texmf-dist/tex/latex/placeins/placeins.sty
+Package: placeins 2005/04/18  v 2.2
+)
 (/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty
 Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
 Package cleveref Info: `hyperref' support loaded on input line 2370.
@@ -379,7 +382,7 @@ Package cleveref Info: always capitalise cross-reference names on input line 78
 52.
 )
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 2
-8.
+9.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
@@ -392,24 +395,24 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 (./paper.aux)
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -441,245 +444,100 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 28.
+Package hyperref Info: Link coloring OFF on input line 29.
 
 (./paper.out) (./paper.out)
 \@outlinefile=\write3
 \openout3 = `paper.out'.
 
 
-Underfull \hbox (badness 6332) in paragraph at lines 31--31
+Underfull \hbox (badness 6332) in paragraph at lines 32--32
 \OT1/ptm/m/sc/17.28 SLO-Grounded Flex-i-bil-ity, Network-Aware
  []
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 31.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 32.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 31.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 32.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-
-Package natbib Warning: Citation `masanet2020recalibrating' on page 1 undefined
- on input line 41.
-
-
-Package natbib Warning: Citation `shehabi2024report' on page 1 undefined on inp
-ut line 41.
-
-
-Package natbib Warning: Citation `wu2022sustainable' on page 1 undefined on inp
-ut line 41.
-
-
-Package natbib Warning: Citation `wierman2014opportunities' on page 1 undefined
- on input line 41.
-
-
-Package natbib Warning: Citation `radovanovic2023carbon' on page 1 undefined on
- input line 41.
-
-
-Package natbib Warning: Citation `rolnick2022tackling' on page 1 undefined on i
-nput line 41.
-
-
-Package natbib Warning: Citation `donti2021dc3' on page 1 undefined on input li
-ne 43.
-
-
-Package natbib Warning: Citation `liang2023homeomorphic' on page 1 undefined on
- input line 43.
-
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-
-dist/fonts/enc/dvips/base/8r.enc}
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texm
+f-dist/fonts/enc/dvips/base/8r.enc}
 
 ]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 4
-7.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-
-Package natbib Warning: Citation `wierman2014opportunities' on page 2 undefined
- on input line 57.
-
-
-Package natbib Warning: Citation `radovanovic2023carbon' on page 2 undefined on
- input line 57.
-
-
-Package natbib Warning: Citation `ruiz2010marginal' on page 2 undefined on inpu
-t line 57.
-
-
-Package natbib Warning: Citation `yu2022orca' on page 2 undefined on input line
- 59.
-
-
-Package natbib Warning: Citation `agrawal2024sarathi' on page 2 undefined on in
-put line 59.
-
-
-Package natbib Warning: Citation `patel2024characterizing' on page 2 undefined 
-on input line 59.
-
-
-Package natbib Warning: Citation `williams2009roofline' on page 2 undefined on 
-input line 59.
-
-
-Package natbib Warning: Citation `donti2021dc3' on page 2 undefined on input li
-ne 61.
-
-
-Package natbib Warning: Citation `li2023loop' on page 2 undefined on input line
- 61.
-
-
-Package natbib Warning: Citation `liang2023homeomorphic' on page 2 undefined on
- input line 61.
-
-
-Package natbib Warning: Citation `chen2021enforcing' on page 2 undefined on inp
-ut line 61.
-
-
-Package natbib Warning: Citation `nguyen2025fsnet' on page 2 undefined on input
- line 61.
-
-
-Package natbib Warning: Citation `zamzam2020learning' on page 2 undefined on in
-put line 61.
-
-
-Package natbib Warning: Citation `pineda2020screening' on page 2 undefined on i
-nput line 61.
-
-
-Package natbib Warning: Citation `donti2017taskbased' on page 2 undefined on in
-put line 61.
-
-[2]
-
-Package natbib Warning: Citation `agrawal2024sarathi' on page 3 undefined on in
-put line 69.
-
-
-Package natbib Warning: Citation `williams2009roofline' on page 3 undefined on 
-input line 69.
-
-
-Package natbib Warning: Citation `ruiz2010marginal' on page 3 undefined on inpu
-t line 89.
-
-[3]
-
-Package natbib Warning: Citation `donti2021dc3' on page 4 undefined on input li
-ne 97.
-
-
-Package natbib Warning: Citation `li2023loop' on page 4 undefined on input line
- 97.
-
-
-Package natbib Warning: Citation `liang2023homeomorphic' on page 4 undefined on
- input line 97.
-
-
-Package natbib Warning: Citation `nguyen2025fsnet' on page 4 undefined on input
- line 97.
-
-
-Package natbib Warning: Citation `pineda2020screening' on page 4 undefined on i
-nput line 97.
-
-<figures/fig2a_power_cap_tradeoff.png, id=170, 516.36916pt x 197.2971pt>
-File: figures/fig2a_power_cap_tradeoff.png Graphic file (type png)
-<use figures/fig2a_power_cap_tradeoff.png>
-Package pdftex.def Info: figures/fig2a_power_cap_tradeoff.png  used on input li
-ne 114.
-(pdftex.def)             Requested size: 397.48499pt x 151.8801pt.
-<figures/fig2b_envelope_week.png, id=174, 456.38506pt x 241.3818pt>
-File: figures/fig2b_envelope_week.png Graphic file (type png)
-<use figures/fig2b_envelope_week.png>
-Package pdftex.def Info: figures/fig2b_envelope_week.png  used on input line 12
-3.
-(pdftex.def)             Requested size: 397.48499pt x 210.23251pt.
-<figures/fig2c_flex_sweeps.png, id=175, 515.2851pt x 190.0701pt>
-File: figures/fig2c_flex_sweeps.png Graphic file (type png)
-<use figures/fig2c_flex_sweeps.png>
-Package pdftex.def Info: figures/fig2c_flex_sweeps.png  used on input line 130.
-
-(pdftex.def)             Requested size: 397.48499pt x 146.61833pt.
-
-Underfull \vbox (badness 3118) has occurred while \output is active []
-
- [4]
-[5 <./figures/fig2a_power_cap_tradeoff.png> <./figures/fig2b_envelope_week.png>
-]
-<figures/fig3_value_by_mode.png, id=201, 534.0753pt x 209.94435pt>
-File: figures/fig3_value_by_mode.png Graphic file (type png)
-<use figures/fig3_value_by_mode.png>
-Package pdftex.def Info: figures/fig3_value_by_mode.png  used on input line 181
-.
-(pdftex.def)             Requested size: 397.48499pt x 156.25336pt.
-<figures/fig4_signal_paradox.png, id=202, 531.9072pt x 217.17136pt>
-File: figures/fig4_signal_paradox.png Graphic file (type png)
-<use figures/fig4_signal_paradox.png>
-Package pdftex.def Info: figures/fig4_signal_paradox.png  used on input line 18
-8.
-(pdftex.def)             Requested size: 397.48499pt x 162.29489pt.
- [6 <./figures/fig2c_flex_sweeps.png>]
-<figures/fig1_flex_interconnection_map.png, id=218, 534.0753pt x 487.0998pt>
+<figures/fig1_flex_interconnection_map.png, id=116, 534.0753pt x 487.0998pt>
 File: figures/fig1_flex_interconnection_map.png Graphic file (type png)
 <use figures/fig1_flex_interconnection_map.png>
 Package pdftex.def Info: figures/fig1_flex_interconnection_map.png  used on inp
-ut line 199.
+ut line 48.
 (pdftex.def)             Requested size: 397.48499pt x 362.52931pt.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 5
+5.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+[2 <./figures/fig1_flex_interconnection_map.png>] [3] [4]
+<figures/fig2a_power_cap_tradeoff.png, id=253, 516.36916pt x 197.2971pt>
+File: figures/fig2a_power_cap_tradeoff.png Graphic file (type png)
+<use figures/fig2a_power_cap_tradeoff.png>
+Package pdftex.def Info: figures/fig2a_power_cap_tradeoff.png  used on input li
+ne 122.
+(pdftex.def)             Requested size: 397.48499pt x 151.8801pt.
+ [5 <./figures/fig2a_power_cap_tradeoff.png>]
+<figures/fig2b_envelope_week.png, id=267, 456.38506pt x 241.3818pt>
+File: figures/fig2b_envelope_week.png Graphic file (type png)
+<use figures/fig2b_envelope_week.png>
+Package pdftex.def Info: figures/fig2b_envelope_week.png  used on input line 13
+1.
+(pdftex.def)             Requested size: 397.48499pt x 210.23251pt.
+<figures/fig2c_flex_sweeps.png, id=268, 515.2851pt x 190.0701pt>
+File: figures/fig2c_flex_sweeps.png Graphic file (type png)
+<use figures/fig2c_flex_sweeps.png>
+Package pdftex.def Info: figures/fig2c_flex_sweeps.png  used on input line 138.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7 <./figures/fig3_value_by_mode.png> <./figures/fig4_signal_paradox.png>]
-<figures/fig5_solver_benchmark.png, id=231, 568.40355pt x 226.2051pt>
+(pdftex.def)             Requested size: 397.48499pt x 146.61833pt.
+ [6 <./figures/fig2b_envelope_week.png> <./figures/fig2c_flex_sweeps.png>]
+<figures/fig3_value_by_mode.png, id=285, 534.0753pt x 209.94435pt>
+File: figures/fig3_value_by_mode.png Graphic file (type png)
+<use figures/fig3_value_by_mode.png>
+Package pdftex.def Info: figures/fig3_value_by_mode.png  used on input line 189
+.
+(pdftex.def)             Requested size: 397.48499pt x 156.25336pt.
+<figures/fig4_signal_paradox.png, id=286, 531.9072pt x 217.17136pt>
+File: figures/fig4_signal_paradox.png Graphic file (type png)
+<use figures/fig4_signal_paradox.png>
+Package pdftex.def Info: figures/fig4_signal_paradox.png  used on input line 19
+6.
+(pdftex.def)             Requested size: 397.48499pt x 162.29489pt.
+ [7]
+<figures/fig5_solver_benchmark.png, id=306, 568.40355pt x 226.2051pt>
 File: figures/fig5_solver_benchmark.png Graphic file (type png)
 <use figures/fig5_solver_benchmark.png>
 Package pdftex.def Info: figures/fig5_solver_benchmark.png  used on input line 
-253.
+255.
 (pdftex.def)             Requested size: 397.48499pt x 158.1906pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [8 <./figures/fig1_flex_interconnection_map.png>] [9 <./figures/fig5_solver_be
-nchmark.png>] (./paper.bbl [10])
-
-Package natbib Warning: There were undefined citations.
-
-[11] (./paper.aux)
+ [8 <./figures/fig3_value_by_mode.png> <./figures/fig4_signal_paradox.png>] [9]
+ (./paper.bbl [10 <./figures/fig5_solver_benchmark.png>]
+[11]) [12] (./paper.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: A56D3A00D617F03D67EC6EED9D36D3CC;2558.
  ) 
 Here is how much of TeX's memory you used:
- 13356 strings out of 476106
- 209735 string characters out of 5793932
- 1945975 words of memory out of 5000000
- 35108 multiletter control sequences out of 15000+600000
+ 13452 strings out of 476106
+ 212059 string characters out of 5793932
+ 1948975 words of memory out of 5000000
+ 35183 multiletter control sequences out of 15000+600000
  586349 words of font info for 95 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 75i,11n,79p,1906b,578s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,1906b,599s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texli
@@ -694,10 +552,10 @@ pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (11 pages, 978802 bytes).
+Output written on paper.pdf (12 pages, 988228 bytes).
 PDF statistics:
- 339 PDF objects out of 1000 (max. 8388607)
- 279 compressed objects within 3 object streams
- 69 named destinations out of 1000 (max. 500000)
+ 423 PDF objects out of 1000 (max. 8388607)
+ 361 compressed objects within 4 object streams
+ 86 named destinations out of 1000 (max. 500000)
  148 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -75,7 +75,7 @@ def entry(key: str, d: dict) -> str:
             f["howpublished"] = tex(venue)
     if d.get("doi"):
         f["doi"] = d["doi"]
-    body = ",\n".join(f"  {k} = {{{v}}}" if k != "title" else f"  {k} = {v}" for k, v in f.items() if v)
+    body = ",\n".join(f"  {k} = {{{v}}}" for k, v in f.items() if v)  # title already carries one brace pair -> {{...}} keeps case
     return f"@{kind}{{{key},\n{body}\n}}\n"
 
 

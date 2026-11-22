@@ -1,0 +1,555 @@
+[
+ {
+  "query": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+  "score": 100,
+  "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+  "year": 2023,
+  "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+  "doi": "10.1145/3600006.3613165",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Woosuk Kwon",
+   "Zhuohan Li",
+   "Siyuan Zhuang",
+   "Ying Sheng",
+   "Lianmin Zheng",
+   "Cody Hao Yu",
+   "Joseph Gonzalez",
+   "Hao Zhang",
+   "Ion Stoica"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Splitwise: Efficient generative LLM inference using phase splitting",
+  "score": 100,
+  "title": "Splitwise: Efficient Generative LLM Inference Using Phase Splitting",
+  "year": 2025,
+  "venue": "IEEE Micro",
+  "doi": "10.1109/mm.2025.3575361",
+  "type": "journal-article",
+  "source": "crossref",
+  "authors": [
+   "Esha Choukse",
+   "Pratyush Patel",
+   "Chaojie Zhang",
+   "Aashaka Shah",
+   "Inigo Goiri",
+   "Saeed Maleki",
+   "Rodrigo Fonseca",
+   "Ricardo Bianchini"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "DynamoLLM: Designing LLM Inference Clusters for Performance and Energy Efficiency",
+  "score": 100,
+  "title": "DynamoLLM: Designing LLM Inference Clusters for Performance and Energy Efficiency",
+  "year": 2025,
+  "venue": "2025 IEEE International Symposium on High Performance Computer Architecture (HPCA)",
+  "doi": "10.1109/hpca61900.2025.00102",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Jovan Stojkovic",
+   "Chaojie Zhang",
+   "\u00cd\u00f1igo Goiri",
+   "Josep Torrellas",
+   "Esha Choukse"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Zeus: Understanding and Optimizing GPU Energy Consumption of DNN Training",
+  "score": 100,
+  "title": "Zeus: Understanding and Optimizing GPU Energy Consumption of DNN Training",
+  "year": 2022,
+  "venue": "arXiv (Cornell University)",
+  "doi": "10.48550/arxiv.2208.06102",
+  "type": "preprint",
+  "source": "openalex",
+  "authors": [
+   "Jie You",
+   "Jae-Won Chung",
+   "Mosharaf Chowdhury"
+  ],
+  "abstract": "Training deep neural networks (DNNs) is becoming increasingly more resource- and energy-intensive every year. Unfortunately, existing works primarily focus on optimizing DNN training for faster completion, often without considering the impact on energy efficiency. In this paper, we observe that common practices to improve training performance can often lead to inefficient energy usage. More importantly, we demonstrate that there is a tradeoff between energy consumption and performance optimization. To this end, we propose Zeus, an optimization framework to navigate this tradeoff by automatically finding optimal job- and GPU-level configurations for recurring DNN training jobs. Zeus uses an online exploration-exploitation approach in conjunction with just-in-time energy profiling, averting the need for expensive offline measurements, while adapting to data drifts over time. Our evaluation shows that Zeus can improve the energy efficiency of DNN training by 15.3%-75.8% for diverse workloads."
+ },
+ {
+  "query": "The IEEE Reliability Test System: A Proposed 2019 Update",
+  "score": 100,
+  "title": "The IEEE Reliability Test System: A Proposed 2019 Update",
+  "year": 2020,
+  "venue": "IEEE Transactions on Power Systems",
+  "doi": "10.1109/tpwrs.2019.2925557",
+  "type": "journal-article",
+  "source": "crossref",
+  "authors": [
+   "Clayton Barrows",
+   "Eugene Preston",
+   "Andrea Staid",
+   "Gord Stephen",
+   "Jean-Paul Watson",
+   "Aaron Bloom",
+   "Ali Ehlen",
+   "Jussi Ikaheimo",
+   "Jennie Jorgenson",
+   "Dheepak Krishnamurthy",
+   "Jessica Lau",
+   "Brendan McBennett",
+   "Matthew O'Connell"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Parallelizing the dual revised simplex method",
+  "score": 100,
+  "title": "Parallelizing the dual revised simplex method",
+  "year": 2017,
+  "venue": "Mathematical Programming Computation",
+  "doi": "10.1007/s12532-017-0130-5",
+  "type": "journal-article",
+  "source": "crossref",
+  "authors": [
+   "Q. Huangfu",
+   "J. A. J. Hall"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Flexible Data Centers and the Grid: Lower Costs, Higher Emissions?",
+  "score": 100,
+  "title": "Flexible Data Centers and the Grid: Lower Costs, Higher Emissions?",
+  "year": 2025,
+  "venue": "National Bureau of Economic Research",
+  "doi": "10.3386/w34065",
+  "type": "report",
+  "source": "crossref",
+  "authors": [
+   "Christopher Knittel",
+   "Juan Ramon Senga",
+   "Shen Wang"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "The environmental potential of hyper-scale data centers: Using locational marginal CO2 emissions to guide geographical load shifting",
+  "score": 100,
+  "title": "The Environmental Potential of Hyper-Scale Data Centers: Using Locational Marginal CO2 Emissions to Guide Geographical Load Shifting",
+  "year": 2021,
+  "venue": "Proceedings of the Annual Hawaii International Conference on System Sciences",
+  "doi": "10.24251/hicss.2021.384",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Julia Lindberg",
+   "Line Roald",
+   "Bernard Lesieutre"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Remunerating space\u2013time, load-shifting flexibility from data centers in electricity markets",
+  "score": 100,
+  "title": "Remunerating space\u2013time, load-shifting flexibility from data centers in electricity markets",
+  "year": 2022,
+  "venue": "Applied Energy",
+  "doi": "10.1016/j.apenergy.2022.119930",
+  "type": "journal-article",
+  "source": "crossref",
+  "authors": [
+   "Weiqi Zhang",
+   "Victor M. Zavala"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Let's Wait Awhile: How Temporal Workload Shifting Can Reduce Carbon Emissions in the Cloud",
+  "score": 100,
+  "title": "Let's wait awhile: how temporal workload shifting can reduce carbon emissions in the cloud",
+  "year": 2021,
+  "venue": "International Middleware Conference",
+  "doi": "10.1145/3464298.3493399",
+  "type": "conference-paper",
+  "source": "openalex",
+  "authors": [
+   "Philipp Wiesner",
+   "Ilja Behnke",
+   "Dominik Scheinert",
+   "Kordian Gontarska",
+   "Lauritz Thamsen"
+  ],
+  "abstract": "Depending on energy sources and demand, the carbon intensity of the public power grid fluctuates over time. Exploiting this variability is an important factor in reducing the emissions caused by data centers. However, regional differences in the availability of low-carbon energy sources make it hard to provide general best practices for when to consume electricity. Moreover, existing research in this domain focuses mostly on carbon-aware workload migration across geo-distributed data centers, or addresses demand response purely from the perspective of power grid stability and costs."
+ },
+ {
+  "query": "CarbonScaler: Leveraging Cloud Workload Elasticity for Optimizing Carbon-Efficiency",
+  "score": 100,
+  "title": "CarbonScaler: Leveraging Cloud Workload Elasticity for Optimizing Carbon-Efficiency",
+  "year": 2024,
+  "venue": "ACM SIGMETRICS Performance Evaluation Review",
+  "doi": "10.1145/3673660.3655048",
+  "type": "journal-article",
+  "source": "crossref",
+  "authors": [
+   "Walid A. Hanafy",
+   "Qianlin Liang",
+   "Noman Bashir",
+   "David Irwin",
+   "Prashant Shenoy"
+  ],
+  "abstract": "Due to inherent variations in energy's carbon intensity, temporal shifting has become a key method in reducing the carbon footprint of batch workloads. However, temporally shifting workloads involves searching for periods with lower carbon intensity, which increases the workload's completion time. In this paper, we present CarbonScaler, a new approach that reduces carbon emissions of batch workloads without extending their completion time. Our approach relies on applications' ability to change their compute demand by scaling the workload based on fluctuations in energy's carbon intensity. We present a carbon-aware scheduling algorithm, a Kubernetes-based prototype, and an analytic tool to guide the carbon-efficient deployment of batch applications in the cloud. We evaluate CarbonScaler using real-world applications and show that it can yield 33% carbon savings without extending the completion time and up to 32% extra carbon savings over state-of-the-art suspend-resume policies when completion time is flexible."
+ },
+ {
+  "query": "DeepOPF: A Deep Neural Network Approach for Security-Constrained DC Optimal Power Flow",
+  "score": 100,
+  "title": "DeepOPF: A Deep Neural Network Approach for Security-Constrained DC Optimal Power Flow",
+  "year": 2021,
+  "venue": "IEEE Transactions on Power Systems",
+  "doi": "10.1109/tpwrs.2020.3026379",
+  "type": "journal-article",
+  "source": "crossref",
+  "authors": [
+   "Xiang Pan",
+   "Tianyu Zhao",
+   "Minghua Chen",
+   "Shengyu Zhang"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Computationally Efficient Safe Reinforcement Learning for Power Systems",
+  "score": 100,
+  "title": "Computationally Efficient Safe Reinforcement Learning for Power Systems",
+  "year": 2022,
+  "venue": "2022 American Control Conference (ACC)",
+  "doi": "10.23919/acc53348.2022.9867652",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Daniel Tabas",
+   "Baosen Zhang"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "FSNet: Feasibility-Seeking Neural Network for Constrained Optimization with Guarantees",
+  "score": 100,
+  "title": "FSNet: Feasibility-Seeking Neural Network for Constrained Optimization with Guarantees",
+  "year": 2025,
+  "venue": "Advances in Neural Information Processing Systems 38",
+  "doi": "10.52202/085713-1323",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Hoang Nguyen",
+   "Priya Donti"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Data-Driven Screening of Network Constraints for Unit Commitment",
+  "score": 100,
+  "title": "Data-Driven Screening of Network Constraints for Unit Commitment",
+  "year": 2022,
+  "venue": "2022 IEEE Power & Energy Society General Meeting (PESGM)",
+  "doi": "10.1109/pesgm48719.2022.9916697",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Salvador Pineda",
+   "Juan Miguel Morales",
+   "Asunci\u00f3n Jim\u00e9nez-Cordero"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Recalibrating global data center energy-use estimates",
+  "score": 100,
+  "title": "Recalibrating global data center energy-use estimates",
+  "year": 2020,
+  "venue": "Science",
+  "doi": "10.1126/science.aba3758",
+  "type": "journal-article",
+  "source": "crossref",
+  "authors": [
+   "Eric Masanet",
+   "Arman Shehabi",
+   "Nuoa Lei",
+   "Sarah Smith",
+   "Jonathan Koomey"
+  ],
+  "abstract": "Growth in energy use has slowed owing to efficiency gains that smart policies can help maintain in the near term"
+ },
+ {
+  "query": "Analysis of marginal carbon intensities in constrained power networks",
+  "score": 100,
+  "title": "Analysis of Marginal Carbon Intensities in Constrained Power Networks",
+  "year": 2010,
+  "venue": "2010 43rd Hawaii International Conference on System Sciences",
+  "doi": "10.1109/hicss.2010.59",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Pablo A. Ruiz",
+   "Aleksandr Rudkevich"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Opportunities and challenges for data center demand response",
+  "score": 100,
+  "title": "Opportunities and challenges for data center demand response",
+  "year": 2014,
+  "venue": "International Green Computing Conference",
+  "doi": "10.1109/igcc.2014.7039172",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Adam Wierman",
+   "Zhenhua Liu",
+   "Iris Liu",
+   "Hamed Mohsenian-Rad"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Learning to Solve Optimization Problems With Hard Linear Constraints",
+  "score": 100,
+  "title": "Learning to Solve Optimization Problems With Hard Linear Constraints",
+  "year": 2023,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2023.3285199",
+  "type": "journal-article",
+  "source": "crossref",
+  "authors": [
+   "Meiyi Li",
+   "Soheil Kolouri",
+   "Javad Mohammadi"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Enforcing Policy Feasibility Constraints through Differentiable Projection for Energy Optimization",
+  "score": 100,
+  "title": "Enforcing Policy Feasibility Constraints through Differentiable Projection for Energy Optimization",
+  "year": 2021,
+  "venue": "Proceedings of the Twelfth ACM International Conference on Future Energy Systems",
+  "doi": "10.1145/3447555.3464874",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Bingqing Chen",
+   "Priya L. Donti",
+   "Kyri Baker",
+   "J. Zico Kolter",
+   "Mario Berg\u00e9s"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Learning Optimal Solutions for Extremely Fast AC Optimal Power Flow",
+  "score": 100,
+  "title": "Learning Optimal Solutions for Extremely Fast AC Optimal Power Flow",
+  "year": 2020,
+  "venue": "2020 IEEE International Conference on Communications, Control, and Computing Technologies for Smart Grids (SmartGridComm)",
+  "doi": "10.1109/smartgridcomm47815.2020.9303008",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Ahmed S. Zamzam",
+   "Kyri Baker"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Characterizing Power Management Opportunities for LLMs in the Cloud",
+  "score": 100,
+  "title": "Characterizing Power Management Opportunities for LLMs in the Cloud",
+  "year": 2024,
+  "venue": "Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 3",
+  "doi": "10.1145/3620666.3651329",
+  "type": "proceedings-article",
+  "source": "crossref",
+  "authors": [
+   "Pratyush Patel",
+   "Esha Choukse",
+   "Chaojie Zhang",
+   "\u00cd\u00f1igo Goiri",
+   "Brijesh Warrier",
+   "Nithish Mahalingam",
+   "Ricardo Bianchini"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "DC3: A learning method for optimization with hard constraints",
+  "score": 100,
+  "title": "DC3: A learning method for optimization with hard constraints",
+  "year": 2021,
+  "venue": "arXiv preprint arXiv:2104.12225",
+  "doi": "",
+  "type": "preprint",
+  "source": "arxiv-abs",
+  "authors": [
+   "Priya L. Donti",
+   "David Rolnick",
+   "J. Zico Kolter"
+  ],
+  "abstract": "Large optimization problems with hard constraints arise in many settings, yet classical solvers are often prohibitively slow, motivating the use of deep networks as cheap \"approximate solvers.\" Unfortunately, naive deep learning approaches typically cannot enforce the hard constraints of such problems, leading to infeasible solutions. In this work, we present Deep Constraint Completion and Correction (DC3), an algorithm to address this challenge. Specifically, this method enforces feasibility via a differentiable procedure, which implicitly completes partial solutions to satisfy equality constraints and unrolls gradient-based corrections to satisfy inequality constraints. We demonstrate the effectiveness of DC3 in both synthetic optimization tasks and the real-world setting of AC optimal power flow, where hard constraints encode the physics of the electrical grid. In both cases, DC3 achieves near-optimal objective values while preserving feasibility."
+ },
+ {
+  "query": "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+  "score": 100,
+  "title": "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+  "year": 2024,
+  "venue": "arXiv preprint arXiv:2403.02310",
+  "doi": "",
+  "type": "preprint",
+  "source": "arxiv-abs",
+  "authors": [
+   "Amey Agrawal",
+   "Nitin Kedia",
+   "Ashish Panwar",
+   "Jayashree Mohan",
+   "Nipun Kwatra",
+   "Bhargav S. Gulavani",
+   "Alexey Tumanov",
+   "Ramachandran Ramjee"
+  ],
+  "abstract": "Each LLM serving request goes through two phases. The first is prefill which processes the entire input prompt and produces the first output token and the second is decode which generates the rest of output tokens, one-at-a-time. Prefill iterations have high latency but saturate GPU compute due to parallel processing of the input prompt. In contrast, decode iterations have low latency but also low compute utilization because a decode iteration processes only a single token per request. This makes batching highly effective for decodes and consequently for overall throughput. However, batching multiple requests leads to an interleaving of prefill and decode iterations which makes it challenging to achieve both high throughput and low latency. We introduce an efficient LLM inference scheduler, Sarathi-Serve, to address this throughput-latency tradeoff. Sarathi-Serve introduces chunked-prefills which splits a prefill request into near equal sized chunks and creates stall-free schedules that adds new requests in a batch without pausing ongoing decodes. Stall-free scheduling unlocks the opportunity to improve throughput with large batch sizes while minimizing the effect of batching on latency. Furthermore, uniform batches in Sarathi-Serve ameliorate the imbalance between iterations resulting in minimal pipeline bubbles. Our techniques yield significant improvements in inference performance across models and hardware under tail latency constraints. For Mistral-7B on single A100 GPUs"
+ },
+ {
+  "query": "Carbon-Aware Computing for Datacenters",
+  "score": 100,
+  "title": "Carbon-Aware Computing for Datacenters",
+  "year": 2023,
+  "venue": "IEEE Transactions on Power Systems",
+  "doi": "10.1109/tpwrs.2022.3173250",
+  "type": "journal-article",
+  "source": "crossref-doi",
+  "authors": [
+   "Ana Radovanovi\u0107",
+   "Ross Koningstein",
+   "Ian Schneider",
+   "Bokan Chen",
+   "Alexandre Duarte",
+   "Binz Roy",
+   "Diyue Xiao",
+   "Maya Haridasan",
+   "Patrick Hung",
+   "Nick Care",
+   "Saurav Talukdar",
+   "Eric Mullen",
+   "Kendal Smith",
+   "MariEllen Cottman",
+   "Walfredo Cirne"
+  ],
+  "abstract": ""
+ },
+ {
+  "query": "Tackling Climate Change with Machine Learning",
+  "score": 100,
+  "title": "Tackling Climate Change with Machine Learning",
+  "year": 2022,
+  "venue": "ACM Computing Surveys",
+  "doi": "10.1145/3485128",
+  "type": "journal-article",
+  "source": "crossref-doi",
+  "authors": [
+   "David Rolnick",
+   "Priya L. Donti",
+   "Lynn H. Kaack",
+   "Kelly Kochanski",
+   "Alexandre Lacoste",
+   "Kris Sankaran",
+   "Andrew Slavin Ross",
+   "Nikola Milojevic-Dupont",
+   "Natasha Jaques",
+   "Anna Waldman-Brown",
+   "Alexandra Sasha Luccioni",
+   "Tegan Maharaj",
+   "Evan D. Sherwin",
+   "S. Karthik Mukkavilli",
+   "Konrad P. Kording",
+   "Carla P. Gomes",
+   "Andrew Y. Ng",
+   "Demis Hassabis",
+   "John C. Platt",
+   "Felix Creutzig",
+   "Jennifer Chayes",
+   "Yoshua Bengio"
+  ],
+  "abstract": "Climate change is one of the greatest challenges facing humanity, and we, as machine learning (ML) experts, may wonder how we can help. Here we describe how ML can be a powerful tool in reducing greenhouse gas emissions and helping society adapt to a changing climate. From smart grids to disaster management, we identify high impact problems where existing gaps can be filled by ML, in collaboration with other fields. Our recommendations encompass exciting research questions as well as promising business opportunities. We call on the ML community to join the global effort against climate change."
+ },
+ {
+  "query": "Task-based End-to-end Model Learning in Stochastic Optimization",
+  "score": 100,
+  "title": "Task-based End-to-end Model Learning in Stochastic Optimization",
+  "year": 2017,
+  "venue": "arXiv preprint arXiv:1703.04529",
+  "doi": "",
+  "type": "preprint",
+  "source": "arxiv-abs",
+  "authors": [
+   "Priya L. Donti",
+   "Brandon Amos",
+   "J. Zico Kolter"
+  ],
+  "abstract": "With the increasing popularity of machine learning techniques, it has become common to see prediction algorithms operating within some larger process. However, the criteria by which we train these algorithms often differ from the ultimate criteria on which we evaluate them. This paper proposes an end-to-end approach for learning probabilistic machine learning models in a manner that directly captures the ultimate task-based objective for which they will be used, within the context of stochastic programming. We present three experimental evaluations of the proposed approach: a classical inventory stock problem, a real-world electrical grid scheduling task, and a real-world energy storage arbitrage task. We show that the proposed approach can outperform both traditional modeling and purely black-box policy optimization approaches in these applications."
+ },
+ {
+  "query": "Sustainable AI: Environmental Implications, Challenges and Opportunities",
+  "score": 100,
+  "title": "Sustainable AI: Environmental Implications, Challenges and Opportunities",
+  "year": 2021,
+  "venue": "arXiv preprint arXiv:2111.00364",
+  "doi": "",
+  "type": "preprint",
+  "source": "arxiv-abs",
+  "authors": [
+   "Carole-Jean Wu",
+   "Ramya Raghavendra",
+   "Udit Gupta",
+   "Bilge Acun",
+   "Newsha Ardalani",
+   "Kiwan Maeng",
+   "Gloria Chang",
+   "Fiona Aga Behram",
+   "James Huang",
+   "Charles Bai",
+   "Michael Gschwind",
+   "Anurag Gupta",
+   "Myle Ott",
+   "Anastasia Melnikov",
+   "Salvatore Candido",
+   "David Brooks",
+   "Geeta Chauhan",
+   "Benjamin Lee",
+   "Hsien-Hsin S. Lee",
+   "Bugra Akyildiz",
+   "Maximilian Balandat",
+   "Joe Spisak",
+   "Ravi Jain",
+   "Mike Rabbat",
+   "Kim Hazelwood"
+  ],
+  "abstract": "This paper explores the environmental impact of the super-linear growth trends for AI from a holistic perspective, spanning Data, Algorithms, and System Hardware. We characterize the carbon footprint of AI computing by examining the model development cycle across industry-scale machine learning use cases and, at the same time, considering the life cycle of system hardware. Taking a step further, we capture the operational and manufacturing carbon footprint of AI computing and present an end-to-end analysis for what and how hardware-software design and at-scale optimization can help reduce the overall carbon footprint of AI. Based on the industry experience and lessons learned, we share the key challenges and chart out important development directions across the many dimensions of AI. We hope the key messages and insights presented in this paper can inspire the community to advance the field of AI in an environmentally-responsible manner."
+ },
+ {
+  "query": "Roofline: an insightful visual performance model for multicore architectures",
+  "score": 100,
+  "title": "Roofline: an insightful visual performance model for multicore architectures",
+  "year": 2009,
+  "venue": "Communications of the ACM",
+  "doi": "10.1145/1498765.1498785",
+  "type": "journal-article",
+  "source": "crossref-doi",
+  "authors": [
+   "Samuel Williams",
+   "Andrew Waterman",
+   "David Patterson"
+  ],
+  "abstract": ""
+ }
+]
