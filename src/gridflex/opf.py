@@ -26,6 +26,7 @@ emissions (LMEs).
 """
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass, field
 
 import highspy
@@ -154,8 +155,14 @@ def solve_opf(
     p_init: np.ndarray | None = None,
     compute_lme: bool = True,
     allow_shed: bool = True,
+    monitored: np.ndarray | None = None,
 ) -> OPFResult:
-    """Solve the multi-period DC-OPF for hours ``[t0, t0+T)``."""
+    """Solve the multi-period DC-OPF for hours ``[t0, t0+T)``.
+
+    ``monitored`` (T, L) bool keeps only those line-limit rows (the rest are
+    dropped from the LP). Use :func:`solve_opf_screened` for an exact solve
+    that adds back any violated limits.
+    """
     G, N, L, K = net.n_gen, net.n_bus, net.n_line, len(datacenters)
     hours = np.arange(t0, t0 + T)
     load = net.load[:, hours]
@@ -199,7 +206,17 @@ def solve_opf(
     nzr, nzc = np.nonzero(np.abs(ptdf) > 1e-10)
     line_rows = np.zeros((T, L), dtype=int)
     for t in range(T):
-        line_rows[t] = lp.add_rows(nzr, i_idx[t, nzc], ptdf[nzr, nzc], -net.line_rating, net.line_rating, L)
+        if monitored is None:
+            line_rows[t] = lp.add_rows(nzr, i_idx[t, nzc], ptdf[nzr, nzc], -net.line_rating, net.line_rating, L)
+        else:
+            keep = np.flatnonzero(monitored[t])
+            line_rows[t] = -1
+            if len(keep):
+                m = np.isin(nzr, keep)
+                remap = np.full(L, -1)
+                remap[keep] = np.arange(len(keep))
+                line_rows[t, keep] = lp.add_rows(remap[nzr[m]], i_idx[t, nzc[m]], ptdf[nzr[m], nzc[m]],
+                                                 -net.line_rating[keep], net.line_rating[keep], len(keep))
     # generator ramps
     rg = np.flatnonzero(np.isfinite(net.gen_ramp))
     if len(rg):
@@ -243,7 +260,9 @@ def solve_opf(
     model.a_matrix_.index_ = A.indices
     model.a_matrix_.value_ = A.data
     h.passModel(model)
+    tic = time.perf_counter()
     h.run()
+    solve_s = time.perf_counter() - tic
     status = h.modelStatusToString(h.getModelStatus())
     if status != "Optimal":
         raise RuntimeError(f"OPF not optimal: {status} (t0={t0})")
@@ -294,8 +313,33 @@ def solve_opf(
         curtailment=float((avail - p)[net.is_renewable].sum()),
         congestion_rent=congestion_rent,
         binding_lines=np.abs(flow) >= net.line_rating[:, None] * (1 - 1e-6),
-        info=dict(n_col=A.shape[1], n_row=A.shape[0], nnz=A.nnz, highs_row_dual=np.asarray(sol.row_dual)),
+        info=dict(n_col=A.shape[1], n_row=A.shape[0], nnz=A.nnz, highs_row_dual=np.asarray(sol.row_dual), solve_s=solve_s),
     )
+
+
+def solve_opf_screened(net: Network, t0: int, T: int = 24, datacenters=(), initial: np.ndarray | None = None,
+                       max_rounds: int = 20, tol: float = 1e-6, **kw) -> OPFResult:
+    """Exact DC-OPF by line-constraint generation, starting from a (possibly learned) monitored set.
+
+    Solve with only the monitored line limits, check every flow, add any
+    violated (line, hour) pairs and re-solve, until none are violated. The
+    result is optimal and feasible for the full problem: it is optimal for a
+    relaxation and feasible for the original. A good ``initial`` set (for
+    example, predicted binding lines) means one round.
+    """
+    L = net.n_line
+    mask = np.zeros((T, L), bool) if initial is None else initial.copy()
+    tic = time.perf_counter()
+    solve_total = 0.0
+    for rnd in range(1, max_rounds + 1):
+        r = solve_opf(net, t0, T, datacenters, monitored=mask, **kw)
+        solve_total += r.info["solve_s"]
+        viol = (np.abs(r.flow) > net.line_rating[:, None] * (1 + tol) + tol).T
+        if not viol.any():
+            r.info.update(rounds=rnd, monitored=int(mask.sum()), total_s=time.perf_counter() - tic, solve_total_s=solve_total)
+            return r
+        mask |= viol
+    raise RuntimeError("constraint generation did not converge")
 
 
 def basis_marginals(A: sp.csc_matrix, c: np.ndarray, col_basic: np.ndarray, row_basic: np.ndarray) -> np.ndarray:
