@@ -15,7 +15,15 @@ Shared setup: RTS-GMLC 2020, lines derated to 0.6x, one 300 MW LLM-inference fac
   generation matches the optimum **exactly (0%) with zero violations at 3.2×** (frequency screen; 6.9× with oracle
   screening). End-to-end learned solvers are either infeasible (DC3-style, 178 MW) or feasible but 2,566–11,268% above the optimal
   cost (gauge / ray projection). → `results/p4/benchmark_full.csv` → Fig. 5
-- Figure 1: phase 5.
+- **Figure 1:** `paper/figures/fig1_flex_interconnection_map.png`, the verified flexible-interconnection map (phase 5).
+
+## Suggested headline for the brief (all numbers supported)
+> On RTS-GMLC with congested lines, SLO-grounded flexibility from an LLM-inference fleet (power capping within latency
+> SLOs plus a few hours of batch deferral) lets a 500 MW campus connect at **48 instead of 36** buses without load
+> shedding, raising the grid's hosting capacity by **22%**. Operated by the right signal, the same flexibility cuts the
+> campus's hosting emissions by **6–12%** (locational marginal emissions) versus 2–3% for cost-only co-optimisation. An
+> exact, screened LP makes every point of the map certifiable, whereas end-to-end constraint-enforcing learners are
+> either infeasible or far from optimal on this problem.
 
 ## Phase 1: grid
 - At nameplate ratings RTS-GMLC is lightly congested: 4,114 binding line-hours/yr vs 22,328 at 0.6x. → `results/p1/summary.csv`
@@ -50,8 +58,24 @@ Shared setup: RTS-GMLC 2020, lines derated to 0.6x, one 300 MW LLM-inference fac
 - DC3-style: +211% mean gap, max violation 178 MW (test), 523 MW (OOD). FSNet-style L-BFGS feasibility seeking stalls
   at 13–40 MW and takes 160–800 ms per instance (slower than HiGHS).
 
+## Phase 5: flexible-interconnection map
+- Ladder: L0 inflexible, L1 power-cap, L2/L3/L4 defer 4/12/24 h, L5 2x-relaxed-SLO capping. Same fleet, traffic and energy on every rung (tested).
+  Hostable = no involuntary shedding and no missed batch deadline, with the operator co-optimising the envelope. → `src/gridflex/hosting.py`, `tests/test_hosting.py`
+- Hostable buses, verified (out of 73): 100 MW 68 → 69; 250 MW 53 → 60; 500 MW 36 → 48; 1,000 MW 23 → 30 (inflexible → with flexibility).
+  → `results/p5/map_verified_ratings0.6.csv` → Fig. 1
+- Hosting capacity (sum over buses of the largest hostable campus, one campus at a time): 35.25 GW → 42.9 GW (+22%). → same CSV
+- Stage 2 raised 10 of 30 flexible entries (3 to not hostable). 2 → 4 stress days/month changed 1 of 292 entries.
+  → `map_ratings0.6.csv` vs `map_verified_ratings0.6.csv`, `map_ratings0.6_2perMonth.csv`
+- Full-year spot checks at buses 101/122/303/313: 9/9 L0 entries hold on all 365 days, and the level below the map's answer fails in 3/3 flexible
+  entries. → `results/p5/validation_ratings0.6.csv`
+- No site needs exactly L4 (24 h deferral) as its minimum.
+
 ## Caveats to state
 - Single facility (price-taker regime). Multi-site and larger facilities come in phase 5.
 - Perfect day-ahead foresight of load and renewables. No unit commitment (Pmin relaxed except nuclear).
 - Fleet parameters marked ASSUMPTION in the config, not yet swept.
 - End-of-year backlog is charged at mean LMP/LME (≤ 650 MWh, < 0.25% of shifted energy).
+- Phase 3 results predate the OPF change that lets involuntary shedding also cut an undeliverable DC (phase 5). It only
+  binds at non-hostable sites (bus 207), whose phase 3 shedding numbers are therefore lower bounds.
+- One campus at a time. The map does not say several campuses can be hosted simultaneously.
+- Single test system (RTS-GMLC, 0.6x ratings). IEEE-118 is left for future work (needs NREL's extended-118 ratings).

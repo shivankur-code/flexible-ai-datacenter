@@ -148,7 +148,7 @@ spread; SLO violation rate and p99 TTFT/TPOT; solver optimality gap, violations 
 | P2 Fleet | trace loader, serving/power model, per-hour SLO check, envelope polytope export | **done**. Fig. 2a–c. Interactive shed is about 5% of load; batch shift scales with batch share |
 | P3 Value | 4 operating modes, a year rolled, Figs 3–4, **X% and Y% filled** | **done**. 5 sites × 6 modes, 48 h lookahead, copper-plate congestion cost. The signal matters more than flexibility; bus 207 is not hostable |
 | P4 Solver | dataset generation, DC3 + gauge (+ FSNet), Fig. 5, **Z% and N× filled** | **done**, mostly negative. Exact screening + constraint generation gives 0% gap at 3.2x (6.9x bound); end-to-end learners are infeasible or 2,566–11,268% above optimal. P5 runs on exact screened HiGHS |
-| P5 Map | RQ5 sweep, **Figure 1**. Run it on exact screened HiGHS (each instance exact, ~75 ms) over representative days, not on a learned surrogate | 2 d |
+| P5 Map | RQ5 sweep, **Figure 1** | **done**. 73 buses × 4 sizes, stress-day screening + full-year verification. Flexibility raises 500 MW hostable sites 36 → 48 and total hosting capacity +22%. IEEE-118 not run (needs NREL-118 ratings) |
 | P6 Handoff | `paper/claims.md`, figures, CSVs, `related_work.md`, `refs.bib` → paper-orchestra | 0.5 d |
 
 **Minimum viable result** (if time is short): P1 + P3 on RTS-GMLC with a simple envelope

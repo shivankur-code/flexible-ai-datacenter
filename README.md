@@ -29,7 +29,10 @@ See **[PLAN.md](PLAN.md)**.
 - **Phase 4 done (solvers), with a mostly negative result.** See below:
   hard-constraint learning struggles on this problem, and the reason is
   structural.
-- The flexible-interconnection map (phase 5) is next.
+- **Phase 5 done (Figure 1).** The flexible-interconnection map for all
+  73 buses x 4 campus sizes, every point exact, flexible entries verified
+  over the full year.
+- Next: phase 6, the paper-orchestra handoff.
 
 ```bash
 pip install -e '.[dev]'
@@ -40,6 +43,9 @@ python experiments/p2_envelope.py         # fleet tables, envelope, Fig. 2a-c ->
 python experiments/p3_value.py            # 61 year-long runs, 4 workers, ~45 min -> results/p3/
 python experiments/p3_analyze.py          # deltas, X%/Y%, Fig. 3-4
 python experiments/p4_solver.py           # ~1.5k HiGHS-labelled instances, 3 learned solvers + screening, Fig. 5 (~35 min)
+python experiments/p5_map.py              # stage 1: 73 buses x 4 sizes on 48 stress days (~11 min)
+python experiments/p5_map.py --verify     # stage 2: full-year verification of flexible entries, Fig. 1 (~25 min)
+python experiments/p5_map.py --validate   # full-year spot checks at the phase 3 sites
 ```
 
 ### Phase 1 baseline (RTS-GMLC 2020, no data center, 366 day-ahead OPFs)
@@ -184,3 +190,40 @@ What we learned:
    (or anchor-free certificates) for OPF families with VOLL slack. Without
    one, gauge and homeomorphic-projection guarantees are not useful at
    operational scale. That is a concrete question for the Donti group.
+
+### Phase 5: the flexible-interconnection map (Figure 1)
+
+*Where can an LLM-inference campus connect without upgrades, and how flexible
+must it be?* For every bus and campus size we find the lowest rung of an
+SLO-feasible ladder at which the grid serves the campus with **no involuntary
+load shedding and no missed batch deadline**. The ladder is: L0 inflexible ->
+L1 power-capping within the SLO -> L2/L3/L4 batch deferral of 4/12/24 h ->
+L5 capping down to a 2x-relaxed SLO. Every rung has the same fleet, traffic
+and energy.
+
+![map](paper/figures/fig1_flex_interconnection_map.png)
+
+| Campus | Hostable as an inflexible load | Hostable with SLO-feasible flexibility | Not hostable |
+|---|---|---|---|
+| 100 MW | 68 buses | 69 | 4 |
+| 250 MW | 53 | 60 (+13%) | 13 |
+| 500 MW | 36 | **48 (+33%)** | 25 |
+| 1,000 MW | 23 | 30 (+30%) | 43 |
+
+Summing the largest hostable campus at each bus (one campus at a time), SLO-grounded flexibility raises
+hosting capacity from **35.3 GW to 42.9 GW (+22%)**.
+
+Method and honesty notes:
+- **Two stages, both exact.** Stage 1 runs exact screened HiGHS on 48 stress
+  days per year (4 per month, 48 h windows). It gives exact "not hostable"
+  answers and an exact lower bound: the level below fails on a real day.
+  Stage 2 re-checks every flexible entry over all 365 days and raises it until
+  every day passes.
+- **Why stage 2 is needed.** Stress days chosen from *system* load missed
+  *local* stress. Stage 2 raised 10 of 30 flexible entries, 3 of them to
+  "not hostable". Doubling the stress days (2 to 4 per month) changed only 1
+  of 292 entries, so more days was not the fix.
+- **L0 entries are spot-checked, not exhaustively verified.** 9 of 9 sampled
+  L0 answers held on all 365 days.
+- **Short deferral does most of the work.** No site needs L4 (24 h deferral)
+  as its minimum: where 12 h is not enough, 24 h is not either.

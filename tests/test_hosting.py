@@ -20,7 +20,8 @@ def setup():
 def test_stress_days(setup):
     cfg, tables, net, yp = setup
     days = stress_days(net)
-    assert len(days) == len(set(days)) and 12 <= len(days) <= 24
+    assert len(days) == len(set(days)) == 48          # 4 per month (default)
+    assert len(stress_days(net, per_month=2)) <= 24
     assert max(days) < net.n_hours // 24 - 1  # every stress day has a lookahead day
 
 
