@@ -1,0 +1,33 @@
+DC3: A learning method for optimization with hard constraints
+Efficient Memory Management for Large Language Model Serving with PagedAttention
+Orca: A Distributed Serving System for Transformer-Based Generative Models
+Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve
+Splitwise: Efficient generative LLM inference using phase splitting
+DynamoLLM: Designing LLM Inference Clusters for Performance and Energy Efficiency
+POLCA: Power Oversubscription in LLM Cloud Providers
+Zeus: Understanding and Optimizing GPU Energy Consumption of DNN Training
+Roofline: an insightful visual performance model for multicore architectures
+The IEEE Reliability Test System: A Proposed 2019 Update
+Parallelizing the dual revised simplex method
+Flexible Data Centers and the Grid: Lower Costs, Higher Emissions?
+The environmental potential of hyper-scale data centers: Using locational marginal CO2 emissions to guide geographical load shifting
+Remunerating space–time, load-shifting flexibility from data centers in electricity markets
+Carbon-Aware Computing for Datacenters
+Let's Wait Awhile: How Temporal Workload Shifting Can Reduce Carbon Emissions in the Cloud
+CarbonScaler: Leveraging Cloud Workload Elasticity for Optimizing Carbon-Efficiency
+DeepOPF: A Deep Neural Network Approach for Security-Constrained DC Optimal Power Flow
+Computationally Efficient Safe Reinforcement Learning for Power Systems
+Low Complexity Homeomorphic Projection to Ensure Neural-Network Solution Feasibility for Optimization over (Non-)Convex Set
+FSNet: Feasibility-Seeking Neural Network for Constrained Optimization with Guarantees
+Data-Driven Screening of Network Constraints for Unit Commitment
+Tackling Climate Change with Machine Learning
+Recalibrating global data center energy-use estimates
+Analysis of marginal carbon intensities in constrained power networks
+Task-based End-to-end Model Learning in Stochastic Optimization
+Opportunities and challenges for data center demand response
+2024 United States Data Center Energy Usage Report
+Learning to Solve Optimization Problems With Hard Linear Constraints
+Enforcing Policy Feasibility Constraints through Differentiable Projection for Energy Optimization
+Learning Optimal Solutions for Extremely Fast AC Optimal Power Flow
+Characterizing Power Management Opportunities for LLMs in the Cloud
+Sustainable AI: Environmental Implications, Challenges and Opportunities

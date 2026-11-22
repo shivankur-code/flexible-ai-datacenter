@@ -1,0 +1,50 @@
+{
+  "plotting_plan": [
+    {"figure_id": "fig_flex_interconnection_map", "title": "Flexible-interconnection map (teaser)", "plot_type": "plot", "data_source": "experimental_log.md", "objective": "Provided figure fig1_flex_interconnection_map.png (small-multiple network maps). Teaser: minimum SLO-feasible flexibility per bus and campus size.", "aspect_ratio": "1:1"},
+    {"figure_id": "fig_power_cap_tradeoff", "title": "Power capping vs SLO capacity", "plot_type": "plot", "data_source": "experimental_log.md", "objective": "Provided fig2a_power_cap_tradeoff.png (line plots).", "aspect_ratio": "21:9"},
+    {"figure_id": "fig_envelope_week", "title": "One-week flexibility envelope", "plot_type": "plot", "data_source": "experimental_log.md", "objective": "Provided fig2b_envelope_week.png (area/line chart).", "aspect_ratio": "21:9"},
+    {"figure_id": "fig_flex_sweeps", "title": "Envelope sensitivity", "plot_type": "plot", "data_source": "experimental_log.md", "objective": "Provided fig2c_flex_sweeps.png (line plots).", "aspect_ratio": "21:9"},
+    {"figure_id": "fig_value_by_mode", "title": "Value by steering signal at bus 313", "plot_type": "plot", "data_source": "experimental_log.md", "objective": "Provided fig3_value_by_mode.png (horizontal bars).", "aspect_ratio": "21:9"},
+    {"figure_id": "fig_signal_paradox", "title": "Same flexibility, different signal across buses", "plot_type": "plot", "data_source": "experimental_log.md", "objective": "Provided fig4_signal_paradox.png (grouped horizontal bars).", "aspect_ratio": "21:9"},
+    {"figure_id": "fig_solver_benchmark", "title": "Solver speed vs guarantees", "plot_type": "plot", "data_source": "experimental_log.md", "objective": "Provided fig5_solver_benchmark.png (log-scale bars).", "aspect_ratio": "21:9"}
+  ],
+  "intro_related_work_plan": {
+    "introduction_strategy": {
+      "hook_hypothesis": "AI data centers are a fast-growing, very large grid load; interconnection delays and grid stress motivate treating them as flexible resources.",
+      "problem_gap_hypothesis": "Flexibility of AI inference fleets is usually assumed rather than derived from serving SLOs, and evaluated against price/carbon signals without transmission constraints; it is unknown where such fleets can connect and which signal should steer them (scoped to RTS-GMLC and the Azure 2024 LLM trace).",
+      "search_directions": [
+        "Data center electricity demand growth and grid impact (IEA / LBNL reports, academic studies)",
+        "Data center demand response and flexibility surveys",
+        "Carbon-aware computing / temporal and spatial load shifting foundations",
+        "Flexible data centers raise emissions under price signals (economic analysis)"
+      ]
+    },
+    "related_work_strategy": {
+      "overview": "Three clusters: (i) data-center flexibility for the grid, (ii) LLM inference serving and energy, (iii) learning to optimize with hard constraints for OPF.",
+      "subsections": [
+        {"subsection_title": "Data-center flexibility and carbon-aware load shifting", "methodology_cluster": "Temporal/spatial load shifting with grid signals; locational marginal emissions", "sota_investigation_mission": "Find works on carbon-aware scheduling, geographic load shifting using locational marginal emissions in OPF, and space-time flexibility of data centers.", "limitation_hypothesis": "Flexibility is a parameter (% shiftable) not derived from latency SLOs; most ignore transmission constraints or hosting.", "limitation_search_queries": ["data center load shifting locational marginal emissions optimal power flow", "carbon-aware computing temporal shifting", "data center space-time load shifting flexibility"], "bridge_to_our_method": "Derive linear SLO-grounded envelopes and evaluate them inside network-constrained OPF, including hosting maps."},
+        {"subsection_title": "LLM inference serving and energy", "methodology_cluster": "Continuous batching, chunked prefill, power capping/frequency scaling for inference", "sota_investigation_mission": "Find vLLM/PagedAttention, Orca, Sarathi chunked prefill, Splitwise, DynamoLLM, POLCA, Zeus/energy measurement works.", "limitation_hypothesis": "They optimize energy/performance inside the cluster but do not expose grid-facing flexibility envelopes.", "limitation_search_queries": ["LLM inference energy efficiency power capping", "LLM inference cluster power oversubscription"], "bridge_to_our_method": "Translate serving physics into a grid-facing linear envelope."},
+        {"subsection_title": "Learning to optimize with hard constraints", "methodology_cluster": "DC3, gauge maps, homeomorphic projection, FSNet, DeepOPF, constraint screening", "sota_investigation_mission": "Find DC3, DeepOPF, gauge-map safe RL/optimization, homeomorphic projection, constraint screening for OPF/unit commitment.", "limitation_hypothesis": "Interior-point-based feasibility restoration is costly when the only interior slack is load shedding; correction-based methods leave violations.", "limitation_search_queries": ["learning to optimize hard constraints optimal power flow feasibility", "constraint screening optimal power flow machine learning"], "bridge_to_our_method": "Diagnose the interior-anchor barrier and use exact screening + constraint generation."}
+      ]
+    }
+  },
+  "section_plan": [
+    {"section_title": "Abstract", "subsections": [{"subsection_title": "Abstract Content", "content_bullets": ["Problem: AI inference campuses as huge grid loads; flexibility assumed and network ignored.", "Method: SLO-grounded linear envelopes from an iteration-level serving simulator driven by Azure 2024 trace; network-constrained DC-OPF on RTS-GMLC; exact flexible-interconnection map; solver study.", "Results: shed ~4.9% of load, ~19.8% deferrable energy; LME-following cuts hosting emissions 5.7-12.3% vs 2.4-3.2% cost co-opt; Knittel effect at coal bus 101; 500 MW campus hostable at 48 vs 36 buses, hosting capacity 35.25 -> 42.90 GW (+22%); exact screening 3.2x speed with 0 gap while hard-constraint learners fail."], "citation_hints": []}]},
+    {"section_title": "1. Introduction", "subsections": [{"subsection_title": "Introduction", "content_bullets": ["Hook, gap (three missing pieces from idea.md), questions, contributions list (4), summary of findings."], "citation_hints": []}]},
+    {"section_title": "2. Related Work", "subsections": [{"subsection_title": "per related_work_strategy", "content_bullets": ["Three paragraphs per cluster, contrasting with our approach."], "citation_hints": []}]},
+    {"section_title": "3. SLO-Grounded Flexibility Envelopes", "subsections": [
+      {"subsection_title": "3.1 Replica model", "content_bullets": ["Iteration-level chunked-prefill continuous batching; roofline timing; power-cap response perf=((cap-idle)/(demand-idle))^gamma.", "SLO capacity by bisection."], "citation_hints": ["Kwon et al. (Efficient Memory Management for Large Language Model Serving with PagedAttention)", "Agrawal et al. (Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve)", "Stojkovic et al. (DynamoLLM: Designing LLM Inference Clusters for Performance and Energy Efficiency)", "Williams et al. (Roofline: an insightful visual performance model for multicore architectures)"]},
+      {"subsection_title": "3.2 Facility envelope", "content_bullets": ["Formal definition: d_t = f_t - s_t + b_t, 0<=s_t<=s_max_t, daily budget, 0<=b_t<=b_max_t, cumulative arrival/deadline bounds; linear."], "citation_hints": []}]},
+    {"section_title": "4. Network-Constrained Joint Dispatch", "subsections": [
+      {"subsection_title": "4.1 Multi-period DC-OPF", "content_bullets": ["PTDF formulation, VOLL shedding, ramps; LMP and LME from basis duals; rolling horizon."], "citation_hints": ["research paper or technical report introducing 'RTS-GMLC'", "research paper or technical report introducing 'HiGHS'"]},
+      {"subsection_title": "4.2 Steering signals", "content_bullets": ["Inflexible, price, avg CI, LME, co-opt; best-response then re-dispatch."], "citation_hints": []}]},
+    {"section_title": "5. Flexible-Interconnection Map", "subsections": [{"subsection_title": "Ladder and two-stage certification", "content_bullets": ["L0-L5 ladder; hostability definition; stress-day lower bound + full-year verification."], "citation_hints": []}]},
+    {"section_title": "6. Experiments", "subsections": [
+      {"subsection_title": "6.1 Setup", "content_bullets": ["From experimental_log 1."], "citation_hints": ["research paper introducing the Azure LLM inference trace (Splitwise / DynamoLLM)"]},
+      {"subsection_title": "6.2 How flexible is an inference fleet?", "content_bullets": ["Fig 2a/b/c, tables 2.2/2.3."], "citation_hints": []},
+      {"subsection_title": "6.3 Signals matter more than flexibility", "content_bullets": ["Table of 2.4, Fig 3/4, lever decomposition, carbon price, bus 207."], "citation_hints": []},
+      {"subsection_title": "6.4 Where can a campus connect?", "content_bullets": ["Fig 1, table 2.6, verification statistics."], "citation_hints": []},
+      {"subsection_title": "6.5 Can hard-constraint learners solve the joint problem?", "content_bullets": ["Table 2.5, Fig 5, interior-anchor barrier."], "citation_hints": ["Donti et al. (DC3: A learning method for optimization with hard constraints)", "Tabas and Zhang (gauge map)"]}]},
+    {"section_title": "7. Conclusion", "subsections": [{"subsection_title": "Conclusion and limitations", "content_bullets": ["Summary; limitations from log; future work: learned interior anchors, multi-campus hosting, other systems."], "citation_hints": []}]}
+  ]
+}
