@@ -7,7 +7,7 @@ Definitions (every number in the paper uses these):
   It is reported as % of hosting cost / emissions and as % of the system total.
 * congestion cost: generation cost on the real (0.6x-derated) network minus
   the cost of the *same* loads on a copper plate.
-* hostable: the inflexible DC causes no involuntary load shedding. At
+* hostable: the inflexible DC causes < 0.1 GWh/yr of involuntary load shedding. At
   non-hostable sites, cost deltas are dominated by the value of lost load
   ($10k/MWh), so those sites are reported in unserved energy and left out of
   the cost/emission % figures.
@@ -88,7 +88,7 @@ def summarise(tot: pd.DataFrame) -> pd.DataFrame:
             d_cost_musd=(cost - t.loc[ref, "gen_cost"]) / 1e6, d_emissions_kt=(em - t.loc[ref, "emissions"]) / 1e3,
             d_curtail_gwh=(r.curtailment - t.loc[ref, "curtailment"]) / 1e3,
             grid_shed_gwh=r.grid_shed / 1e3, d_grid_shed_gwh=(r.grid_shed - t.loc[ref, "grid_shed"]) / 1e3,
-            hostable=bool(t.loc[ref, "grid_shed"] < 1.0),
+            hostable=bool(t.loc[ref, "grid_shed"] < 100.0),  # < 0.1 GWh/yr of involuntary shedding
         )
         row["d_cost_pct_hosting"] = 100 * row["d_cost_musd"] / row["hosting_cost_musd"]
         row["d_emis_pct_hosting"] = 100 * row["d_emissions_kt"] / row["hosting_emissions_kt"]
@@ -119,8 +119,9 @@ def fig_value(s: pd.DataFrame, site: int):
         for yi, x in zip(y, v):
             a.annotate(f"{x:+.1f}%", (x, yi), xytext=(4 if x >= 0 else -4, 0), textcoords="offset points",
                        ha="left" if x >= 0 else "right", va="center", fontsize=8, color=INK)
-        lim = max(abs(v).max() * 1.6, 1)
-        a.set_xlim(-lim, lim)
+        span = max(abs(v).max(), 0.5)
+        a.set_xlim(min(v.min(), 0) - 0.45 * span, max(v.max(), 0) + 0.45 * span)
+        a.tick_params(axis="y", length=0)
         a.set_title(title, fontsize=9)
         a.set_xlabel("change vs inflexible DC (%)")
         a.grid(axis="y", visible=False)

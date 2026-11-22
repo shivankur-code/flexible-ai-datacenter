@@ -23,7 +23,10 @@ See **[PLAN.md](PLAN.md)**.
   (chunked-prefill continuous batching, roofline timing, power-cap physics),
   driven by the 2024 Azure LLM inference trace. It produces hourly linear
   envelopes (firm / sheddable / deferrable) that the OPF consumes directly.
-- Learned solvers and the experiments for phases 3–5 are next.
+- **Phase 3 done (grid value).** One year, 5 sites, 6 operating modes, a
+  48 h-lookahead rolling horizon, and copper-plate replays for congestion cost.
+  See the results below and [`paper/claims.md`](paper/claims.md).
+- The learned solver (phase 4) and the flexible-interconnection map (phase 5) are next.
 
 ```bash
 pip install -e '.[dev]'
@@ -31,6 +34,8 @@ python -m gridflex.datasets               # fetch RTS-GMLC (pinned commit) into 
 pytest -q                                 # 19 tests
 python experiments/p1_baseline_year.py    # full-year grid baseline -> results/p1/
 python experiments/p2_envelope.py         # fleet tables, envelope, Fig. 2a-c -> results/p2/, paper/figures/
+python experiments/p3_value.py            # 61 year-long runs, 4 workers, ~45 min -> results/p3/
+python experiments/p3_analyze.py          # deltas, X%/Y%, Fig. 3-4
 ```
 
 ### Phase 1 baseline (RTS-GMLC 2020, no data center, 366 day-ahead OPFs)
@@ -94,3 +99,46 @@ Takeaways:
 - **Capping is more efficient for batch work.** 50% of TDP gives the lowest
   J/token. Deferring batch work therefore also cuts its energy compared with
   running it uncapped.
+
+### Phase 3: grid value of the envelope (RTS-GMLC, lines at 0.6x, 300 MW facility, one year)
+
+Each row compares a flexible mode with an inflexible facility at the same bus.
+Values are % of the facility's *hosting impact* (what the inflexible DC adds
+over no DC). The facility uses the same envelope throughout (shed 1.5% of
+energy, shift 20%); only the signal it follows changes.
+
+| Bus (area) | Hosting CO2 intensity | Co-opt: cost | Co-opt: CO2 | LME-following: cost | LME-following: CO2 | Avg-CI-following: CO2 |
+|---|---|---|---|---|---|---|
+| 101 (1, coal-heavy) | 0.81 t/MWh | −2.8% | **+0.9%** | −1.4% | −5.7% | 0.0% |
+| 122 (1, wind) | 0.52 t/MWh | −6.7% | −3.1% | −5.3% | −11.9% | −2.2% |
+| 303 (3, wind pocket) | 0.48 t/MWh | −8.4% | −3.2% | −6.3% | −12.3% | −0.2% |
+| 313 (3, load centre) | 0.57 t/MWh | −3.9% | −2.4% | −2.2% | −9.6% | −0.9% |
+
+![value](paper/figures/fig3_value_by_mode.png)
+![paradox](paper/figures/fig4_signal_paradox.png)
+
+Findings:
+1. **The value of SLO-feasible flexibility is real but modest.** It cuts
+   hosting cost by 3–8% and grid congestion cost by up to 3.8% (bus 303). Of
+   the 3.9% saved at bus 313, about half comes from shifting batch work and half
+   from power capping. Capping's emissions benefit is almost entirely the energy
+   it saves (20.5 GWh).
+2. **The signal matters more than the flexibility.** With the same envelope,
+   following locational marginal emissions cuts hosting emissions by 6–12%,
+   3–4x more than cost-optimal co-optimisation, while keeping 50–80% of the
+   cost savings. Following the *average* carbon intensity, the default in
+   carbon-aware schedulers, does almost nothing for emissions (0 to −2%). At
+   bus 313 with shift only, it *raises* them (+0.5%).
+3. **The Knittel effect appears where coal sits at the margin.** At bus 101,
+   price-following and co-optimisation cut cost 2.8% but raise emissions 0.9%.
+   A single 300 MW facility is a price-taker here, so price-following and
+   co-optimisation land on almost the same outcome.
+4. **A carbon price aligns the signals.** On a grid priced at $50/t,
+   price-following, LME-following and co-optimisation all converge
+   (−22.3 to −22.5 kt CO2/yr at bus 313).
+5. **Location dominates operation.** The same facility's hosting CO2 intensity
+   ranges from 0.48 to 0.81 t/MWh across buses, much larger than any operating
+   mode's effect. At the radial bus 207 the facility is **not hostable**
+   (156 GWh/yr of involuntary load shedding). Co-optimisation cuts that
+   shedding by 36%, but network-blind carbon signals *increase* it by 38–43%.
+   This motivates the phase 5 flexible-interconnection map.
