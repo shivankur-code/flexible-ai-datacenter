@@ -7,6 +7,7 @@ missed batch deadline, on the year's stress days (lines at 0.6x by default).
 Every solve is exact (HiGHS with line-constraint generation).
 
     python experiments/p5_map.py [--ratings 0.6] [--workers 4]
+    python experiments/p5_map.py --verify        # stage 2: full-year verification of every flexible entry (Fig. 1)
     python experiments/p5_map.py --validate      # full-year check of selected map entries
 
 Writes results/p5/map_ratings*.csv and paper/figures/fig1_flex_interconnection_map.{png,pdf}.
@@ -78,6 +79,47 @@ def _validate_one(args):
                 first_failing_days=",".join(map(str, fails[:5])))
 
 
+def _verify_one(args):
+    """Full-year verification of one flexible map entry: raise the level until every day passes."""
+    ratings, bus, size, level = args
+    from gridflex.hosting import LEVELS, NOT_HOSTABLE, check_level, envelopes_for
+
+    cfg, tables, net, yp, _ = _setup(ratings)
+    envs = envelopes_for(cfg, tables, bus, size, net, yp)
+    all_days = list(range(net.n_hours // 24 - 1))
+    L = level
+    while L < NOT_HOSTABLE:
+        ch = check_level(net, envs[L], LEVELS[L], all_days, stop_early=True)
+        if len(ch) == len(all_days) and all(c.ok for c in ch):
+            break
+        L += 1
+    return dict(bus=bus, size_mw=size, stress_level=level, verified_level=L)
+
+
+def verify(ratings, df, workers):
+    """Two-stage map. Stress days give an exact *lower* bound: the level below fails on a real day. A
+    full-year check then confirms or raises every flexible entry. "Not hostable" is already exact, since a
+    failing day exists at every level."""
+    from gridflex.hosting import LEVELS, NOT_HOSTABLE
+
+    tasks = [(ratings, int(r.bus), float(r.size_mw), int(r.level)) for r in df.itertuples()
+             if (not r.inferred) and 0 < r.level < NOT_HOSTABLE]
+    with ProcessPoolExecutor(workers) as ex:
+        res = pd.DataFrame(list(ex.map(_verify_one, tasks)))
+    out = df.copy()
+    out["stress_level"] = out["level"]
+    for r in res.itertuples():
+        m = (out.bus == r.bus) & (out.size_mw == r.size_mw)
+        out.loc[m, "level"] = r.verified_level
+    # keep the map monotone in size (a bigger campus never needs less flexibility)
+    out = out.sort_values(["bus", "size_mw"])
+    out["level"] = out.groupby("bus")["level"].cummax()
+    out["verified_full_year"] = out.stress_level.between(1, NOT_HOSTABLE - 1) & ~out.inferred
+    out["level_name"] = [LEVELS[int(v)]["name"] if v < NOT_HOSTABLE else "not hostable" for v in out.level]
+    print(res.to_string(index=False))
+    return out
+
+
 def validate(ratings, entries, workers):
     """Full-year (every day, 48 h windows) check of map entries: the map's level should pass on every day,
     and the level below should fail on at least one."""
@@ -147,9 +189,17 @@ def main():
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--buses", type=int, nargs="*")
     ap.add_argument("--validate", action="store_true")
+    ap.add_argument("--verify", action="store_true", help="full-year verification of flexible entries (stage 2)")
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     path = OUT / f"map_ratings{args.ratings:g}.csv"
+    if args.verify:
+        df = pd.read_csv(path)
+        out = verify(args.ratings, df, args.workers)
+        out.to_csv(OUT / f"map_verified_ratings{args.ratings:g}.csv", index=False)
+        print(out.pivot_table(index="level_name", columns="size_mw", values="bus", aggfunc="count", fill_value=0))
+        figure(out, args.ratings)
+        return
     if args.validate:
         df = pd.read_csv(path)
         picks = []
