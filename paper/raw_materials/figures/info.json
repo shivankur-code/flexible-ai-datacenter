@@ -1,0 +1,30 @@
+[
+  {
+    "name": "fig1_flex_interconnection_map.png",
+    "caption": "Flexible-interconnection map on RTS-GMLC (lines at 0.6x). For campuses of 100, 250, 500 and 1,000 MW, each bus shows the minimum rung of the SLO-feasible flexibility ladder at which the campus connects with no involuntary load shedding and no missed batch deadline (gray: inflexible suffices; blue ramp: power capping, 4/12/24 h deferral, relaxed-SLO capping; red cross: not hostable). Flexible entries are verified over all 365 days."
+  },
+  {
+    "name": "fig2a_power_cap_tradeoff.png",
+    "caption": "Power capping an 8-GPU LLM-serving replica. Left: request rate that still meets the p99 SLO (TTFT 1 s, TPOT 100 ms) as a fraction of the uncapped capacity; dashed line: nominal provisioning at 80%. Right: server power at nominal load. Conversation and code-assistant services from the Azure 2024 trace."
+  },
+  {
+    "name": "fig2b_envelope_week.png",
+    "caption": "One week of the hourly flexibility envelope of a 300 MW LLM-inference campus: firm power (interactive serving at full power plus idle spares), power sheddable within the SLO by GPU power capping, headroom for deferrable batch work, and the inflexible reference that serves batch work on arrival."
+  },
+  {
+    "name": "fig2c_flex_sweeps.png",
+    "caption": "Sensitivity of the envelope. Left: mean sheddable power vs SLO tightness. Right: shiftable (batch) and sheddable shares of facility energy vs the amount of batch work."
+  },
+  {
+    "name": "fig3_value_by_mode.png",
+    "caption": "One-year value of the same envelope under different steering signals for a 300 MW campus at bus 313, as change vs an inflexible campus in hosting cost, hosting emissions and grid congestion cost."
+  },
+  {
+    "name": "fig4_signal_paradox.png",
+    "caption": "Same flexibility, different signal, across four hostable buses: change in hosting cost and hosting emissions vs an inflexible campus. Blue = better, red = worse. Price-following and cost co-optimisation raise emissions at the coal-heavy bus 101."
+  },
+  {
+    "name": "fig5_solver_benchmark.png",
+    "caption": "Speed vs guarantees for the 24 h joint fleet-grid dispatch (5.5k variables) on held-out days. Exact screening plus constraint generation reaches the exact optimum with zero violations. End-to-end constraint-enforcing learners are either infeasible (DC3-style) or feasible but far from optimal (gauge map, predict-correct-project)."
+  }
+]
