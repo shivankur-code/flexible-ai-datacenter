@@ -31,6 +31,10 @@ Claude**, following PaperOrchestra's own prompts (`methods/prompts/*`) and stage
 keeps a Limitations paragraph, because the study's scope (one test system, one campus at a time, assumed fleet
 parameters) must be stated.
 
+**Format:** the ICLR 2025 style is used in final-copy mode (`\iclrfinalcopy`), so the author is shown, and the
+running header is overridden to "Preprint". The default anonymous mode prints "Anonymous authors" and
+"Under review as a conference paper at ICLR 2025", which would be inaccurate for this preprint.
+
 Rebuild:
 ```bash
 cd paper/orchestra_run && python build_bib.py verified.json && cd latex && pdflatex paper && bibtex paper && pdflatex paper && pdflatex paper
