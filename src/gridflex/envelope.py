@@ -140,8 +140,14 @@ def asap_schedule(arrivals: np.ndarray, cap: np.ndarray) -> np.ndarray:
 
 def build_envelope(cfg: dict, bus: int, facility_mw: float, timestamps: pd.DatetimeIndex, year_profile: dict,
                    interactive: pd.DataFrame, batch: pd.DataFrame, batch_fill: float | None = None,
-                   deadline_h: int | None = None) -> Envelope:
-    """Build the hourly envelope for one data center. See the module docstring."""
+                   deadline_h: int | None = None, cap_table: pd.DataFrame | None = None) -> Envelope:
+    """Build the hourly envelope for one data center. See the module docstring.
+
+    ``cap_table`` (an interactive table computed under a different SLO)
+    decides how far active replicas may be power-capped. Provisioning and
+    traffic still follow ``interactive``, so only shedding headroom changes
+    and the facility's workload and energy stay identical.
+    """
     pue = cfg["facility"]["pue"]
     rho = cfg["interactive"]["provisioning_utilisation"]
     u_peak = cfg["interactive"]["peak_utilisation"]
@@ -155,6 +161,8 @@ def build_envelope(cfg: dict, bus: int, facility_mw: float, timestamps: pd.Datet
     services = sorted(interactive.service.unique())
     caps = sorted(interactive.kappa.unique())
     mu = {(s, k): float(interactive[(interactive.service == s) & (interactive.kappa == k)].mu.iloc[0]) for s in services for k in caps}
+    capt = interactive if cap_table is None else cap_table
+    mu_cap = {(s, k): float(capt[(capt.service == s) & (capt.kappa == k)].mu.iloc[0]) for s in services for k in caps}
 
     # scale the trace so that peak-hour interactive replicas = u_peak * n_servers
     need_unit = sum(year_profile[s][0] * year_profile[s][1] / (rho * mu[(s, 1.0)]) for s in services)
@@ -171,11 +179,12 @@ def build_envelope(cfg: dict, bus: int, facility_mw: float, timestamps: pd.Datet
         per = lam / n
         per_pk = lam_pk / n
         sub = interactive[interactive.service == s]
+        csub = capt[capt.service == s]
         pn = n * _interp_power(sub, 1.0, per)
         pm = pn.copy()
         for k in caps:  # lowest-power cap whose SLO capacity covers the peak-minute load
-            ok = mu[(s, k)] >= per_pk
-            pm = np.where(ok, np.minimum(pm, n * _interp_power(sub, k, per)), pm)
+            ok = mu_cap[(s, k)] >= per_pk
+            pm = np.where(ok, np.minimum(pm, n * _interp_power(csub, k, per)), pm)
         n_active += n
         p_nom += pn
         p_min += pm

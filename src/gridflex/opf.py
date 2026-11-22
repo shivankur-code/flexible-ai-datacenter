@@ -173,7 +173,12 @@ def solve_opf(
     gcost = net.gen_cost + carbon_price * net.gen_co2
     # Variables are laid out hour-major: [p(:,t) for t], then shed, d, inj.
     p_idx = lp.add_vars(G * T, np.minimum(np.repeat(net.gen_pmin[:, None], T, 1), avail).T.ravel(), avail.T.ravel(), np.tile(gcost, T)).reshape(T, G)
-    shed_ub = load.T.ravel() if allow_shed else 0.0
+    # Involuntary shedding may also cut a DC that the network cannot deliver (priced at VOLL), so an
+    # undeliverable facility makes the LP report shedding instead of turning infeasible.
+    shed_cap = load.copy()
+    for dc in datacenters:
+        shed_cap[net.bus_index(dc.bus)] += dc.firm + dc.flex_max
+    shed_ub = shed_cap.T.ravel() if allow_shed else 0.0
     s_idx = lp.add_vars(N * T, 0.0, shed_ub, VOLL).reshape(T, N)
     if K:
         d_idx = lp.add_vars(K * T, 0.0, inf, 0.0).reshape(T, K)
