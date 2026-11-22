@@ -7,6 +7,10 @@ Definitions (every number in the paper uses these):
   It is reported as % of hosting cost / emissions and as % of the system total.
 * congestion cost: generation cost on the real (0.6x-derated) network minus
   the cost of the *same* loads on a copper plate.
+* hostable: the inflexible DC causes no involuntary load shedding. At
+  non-hostable sites, cost deltas are dominated by the value of lost load
+  ($10k/MWh), so those sites are reported in unserved energy and left out of
+  the cost/emission % figures.
 * backlog adjustment: deferrable work still unserved at year end, relative to
   the inflexible run, is charged at the DC bus's mean LMP / LME from the
   inflexible run.
@@ -83,6 +87,8 @@ def summarise(tot: pd.DataFrame) -> pd.DataFrame:
             hosting_cost_musd=host_cost / 1e6, hosting_emissions_kt=host_em / 1e3,
             d_cost_musd=(cost - t.loc[ref, "gen_cost"]) / 1e6, d_emissions_kt=(em - t.loc[ref, "emissions"]) / 1e3,
             d_curtail_gwh=(r.curtailment - t.loc[ref, "curtailment"]) / 1e3,
+            grid_shed_gwh=r.grid_shed / 1e3, d_grid_shed_gwh=(r.grid_shed - t.loc[ref, "grid_shed"]) / 1e3,
+            hostable=bool(t.loc[ref, "grid_shed"] < 1.0),
         )
         row["d_cost_pct_hosting"] = 100 * row["d_cost_musd"] / row["hosting_cost_musd"]
         row["d_emis_pct_hosting"] = 100 * row["d_emissions_kt"] / row["hosting_emissions_kt"]
@@ -127,7 +133,7 @@ def fig_value(s: pd.DataFrame, site: int):
 
 
 def fig_paradox(s: pd.DataFrame):
-    d = s[(s.levers == "flexible") & (s.carbon_price == 0) & s["mode"].isin(MODES)]
+    d = s[(s.levers == "flexible") & (s.carbon_price == 0) & s["mode"].isin(MODES) & s.hostable]
     sites = sorted(d.site.unique())
     fig, ax = plt.subplots(1, 2, figsize=(7.4, 3.0), sharey=True)
     y = np.arange(len(sites))
@@ -163,7 +169,7 @@ def main():
     s.to_csv(P3 / "summary.csv", index=False)
     cols = ["name", "dc_twh", "dc_shed_gwh", "dc_shift_gwh", "late_mwh_h", "backlog_adj_mwh", "hosting_cost_musd", "hosting_emissions_kt",
             "d_cost_pct_hosting", "d_emis_pct_hosting", "d_cost_pct_system", "d_emis_pct_system", "d_curtail_gwh",
-            "congestion_cost_musd", "d_congestion_pct", "hosting_congestion_musd"]
+            "congestion_cost_musd", "d_congestion_pct", "hosting_congestion_musd", "grid_shed_gwh", "d_grid_shed_gwh", "hostable"]
     pd.set_option("display.width", 250)
     print(s[[c for c in cols if c in s]].round(2).to_string(index=False))
     fig_value(s, args.main_site)
