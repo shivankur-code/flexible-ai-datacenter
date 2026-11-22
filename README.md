@@ -26,7 +26,10 @@ See **[PLAN.md](PLAN.md)**.
 - **Phase 3 done (grid value).** One year, 5 sites, 6 operating modes, a
   48 h-lookahead rolling horizon, and copper-plate replays for congestion cost.
   See the results below and [`paper/claims.md`](paper/claims.md).
-- The learned solver (phase 4) and the flexible-interconnection map (phase 5) are next.
+- **Phase 4 done (solvers), with a mostly negative result.** See below:
+  hard-constraint learning struggles on this problem, and the reason is
+  structural.
+- The flexible-interconnection map (phase 5) is next.
 
 ```bash
 pip install -e '.[dev]'
@@ -36,6 +39,7 @@ python experiments/p1_baseline_year.py    # full-year grid baseline -> results/p
 python experiments/p2_envelope.py         # fleet tables, envelope, Fig. 2a-c -> results/p2/, paper/figures/
 python experiments/p3_value.py            # 61 year-long runs, 4 workers, ~45 min -> results/p3/
 python experiments/p3_analyze.py          # deltas, X%/Y%, Fig. 3-4
+python experiments/p4_solver.py           # ~1.5k HiGHS-labelled instances, 3 learned solvers + screening, Fig. 5 (~35 min)
 ```
 
 ### Phase 1 baseline (RTS-GMLC 2020, no data center, 366 day-ahead OPFs)
@@ -142,3 +146,41 @@ Findings:
    (156 GWh/yr of involuntary load shedding). Co-optimisation cuts that
    shedding by 36%, but network-blind carbon signals *increase* it by 38–43%.
    This motivates the phase 5 flexible-interconnection map.
+
+### Phase 4: can a constraint-enforcing learned solver beat HiGHS here?
+
+The family is the 24 h fleet-grid DC-OPF at bus 313 (5.5k variables; HiGHS
+takes ~0.25 s). It is trained on 1,168 HiGHS-labelled day x envelope instances
+and tested on 296 held-out days plus 74 out-of-distribution instances
+(a 600 MW facility).
+
+![solvers](paper/figures/fig5_solver_benchmark.png)
+
+| Method (held-out days) | Speed-up | Optimality gap | Max violation |
+|---|---|---|---|
+| Oracle line screening (bound) | 6.9x | 0 | 0 |
+| **Frequency screening + constraint generation (no learning)** | **3.2x** | **0** | **0** |
+| Learned screening + constraint generation | 2.6x | 0 | 0 |
+| Constraint generation alone | 2.2x | 0 | 0 |
+| DC3-style (completion + correction) | 21x | +211% | 178 MW |
+| Predict-correct-project (DC3 + exact ray projection) | 34x | +11,268% | 0 |
+| Pure gauge map around an interior anchor | 306x | +2,566% | 0 |
+
+What we learned:
+1. **Exact methods win.** Screening line limits and then generating
+   constraints is optimal and feasible *by construction*, at 2–7x. A
+   binding-frequency heuristic (3.2x) beats our learned screen (2.6x), whose
+   recall drops to 77% on unseen days. The union of the two adds nothing.
+2. **End-to-end constraint enforcement hits a structural wall.** Equalities are
+   easy (completion by a *distributed slack*; a single-pivot completion piles
+   all prediction error onto one bus and fails). But every strictly interior
+   point of this LP must shed load at every bus, which is the only slack. So
+   any feasibility restoration that retracts toward an interior point (gauge
+   map, ray projection) is billed at the value of lost load. Feasible-by-construction
+   outputs land 2,566–11,268% above the optimal cost. DC3-style correction stays
+   cheap but violates line limits by up to 178 MW. FSNet-style L-BFGS
+   feasibility seeking stalls at 13–40 MW and is no faster than HiGHS.
+3. **The open problem this exposes:** *learning low-cost interior anchors*
+   (or anchor-free certificates) for OPF families with VOLL slack. Without
+   one, gauge and homeomorphic-projection guarantees are not useful at
+   operational scale. That is a concrete question for the Donti group.

@@ -137,7 +137,7 @@ def exact_benchmark(fam, screen, freq_mask, D, split, log):
     out = [dict(method="HiGHS (full LP)", split=split, n=len(b), gap_mean=0.0, gap_max=0.0, viol_max=0.0, feasible_frac=1.0,
                 ms_per_instance=full_ms, speedup=1.0, rounds_mean=1.0)]
     names = dict(cg="Constraint generation (no learning)", freq="Frequency screening + CG (no learning)",
-                 learned="Learned screening + CG (ours)", oracle="Oracle screening (bound)")
+                 learned="Learned screening + CG", oracle="Oracle screening (bound)")
     for key in ("cg", "freq", "learned", "oracle"):
         ms = 1e3 * np.mean(rec[key]) + (nn_ms if key == "learned" else 0.0)
         out.append(dict(method=names[key], split=split, n=len(b), gap_mean=float(np.mean(gaps)) if key == "learned" else 0.0,

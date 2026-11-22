@@ -10,7 +10,12 @@ Shared setup: RTS-GMLC 2020, lines derated to 0.6x, one 300 MW LLM-inference fac
   (2.0% at 122, 0.7% at 313; +0.4% at coal-heavy 101). → `results/p3/summary.csv` `d_congestion_pct` → Fig. 3 (313)
 - **Y% (emissions):** following locational marginal emissions cuts the facility's hosting emissions by **9.6–12.3%**
   at buses 122/303/313 (5.7% at 101). Cost-optimal co-optimisation cuts them 2.4–3.2%. → `summary.csv` `d_emis_pct_hosting` → Fig. 4
-- Z%, N×: phase 4. Figure 1: phase 5.
+- **Z%, N× (solver):** the brief's original claim ("a constraint-enforcing learned solver matched the optimum within Z% at
+  N× speed with zero violations") is **not supported**. The supported version: exact line screening + constraint
+  generation matches the optimum **exactly (0%) with zero violations at 3.2×** (frequency screen; 6.9× with oracle
+  screening). End-to-end learned solvers are either infeasible (DC3-style, 178 MW) or feasible but 2,566–11,268% above the optimal
+  cost (gauge / ray projection). → `results/p4/benchmark_full.csv` → Fig. 5
+- Figure 1: phase 5.
 
 ## Phase 1: grid
 - At nameplate ratings RTS-GMLC is lightly congested: 4,114 binding line-hours/yr vs 22,328 at 0.6x. → `results/p1/summary.csv`
@@ -30,6 +35,20 @@ Shared setup: RTS-GMLC 2020, lines derated to 0.6x, one 300 MW LLM-inference fac
 - Average-CI following, shift-only, raises emissions +0.47% at bus 313. → `313_avg_ci_shift`
 - With a $50/t grid carbon price, price-following, LME-following and co-opt converge (−22.3 to −22.5 kt/yr). → rows `313_*_cp50`
 - Bus 207 (radial, 105 MW line at 0.6x) cannot host 300 MW: 156 GWh/yr of involuntary shedding. Co-opt cuts it 36%, while avg-CI and LME following raise it 43% and 38%. → rows `207_*` `d_grid_shed_gwh`
+
+## Phase 4: solvers
+- Problem: 24 h DC-OPF + one DC envelope at bus 313, 5,496 decision variables after completion; HiGHS 0.25 s/instance.
+  1,168 train / 296 test (held-out days) / 74 OOD (600 MW, fill 0.9). → `results/p4/meta_full.json`
+- Exact methods (0 gap, 0 violation, verified by assertion on every test instance): constraint generation 2.2×,
+  frequency screening 3.2×, learned screening 2.6× (test recall 77%, overfits), oracle 6.9×. OOD: 2.1× / 2.8× / 2.3× / 6.9×.
+  → `benchmark_full.csv`
+- A union of learned and frequency screens adds nothing: the learned rows are a subset of the frequency rows (calibration run, 120 test instances).
+- Single-pivot completion fails: about 2,000 MW of error lands on the pivot bus. A distributed-slack completion keeps |delta| ≤ 0.15. → `src/gridflex/solvers/problem.py`
+- A closed-form strictly interior anchor exists for 100% of instances (lowest-shedding member of a one-parameter
+  family, shedding 2–50%). Gauge/ray outputs are exactly feasible (tests), but land 2,566% (gauge) and 11,268% (ray) above the optimum
+  on average, because interior points must shed load (VOLL). → Fig. 5, `tests/test_solvers.py`
+- DC3-style: +211% mean gap, max violation 178 MW (test), 523 MW (OOD). FSNet-style L-BFGS feasibility seeking stalls
+  at 13–40 MW and takes 160–800 ms per instance (slower than HiGHS).
 
 ## Caveats to state
 - Single facility (price-taker regime). Multi-site and larger facilities come in phase 5.
