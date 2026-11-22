@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Research Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #a4192e;
+    --ink: #1d1d1f;
+    --ink2: #4a4a4f;
+    --muted: #6b6b70;
+    --rule: #d9d9dc;
+    --card: #f5f5f7;
+    --hl: #fdf3c4;
+    --hl-ink: #6b5200;
+    --result-bg: #fffbea;
+    --result-rule: #e2b33c;
+  }
+  @page { size: Letter; margin: 0.5in 0.62in 0.5in 0.62in; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); background: #fff; font-family: "Source Serif 4", Georgia, serif; font-size: 10.1pt; line-height: 1.38; }
+  .sans { font-family: Inter, system-ui, sans-serif; }
+  .page { page-break-after: always; position: relative; }
+  .page:last-child { page-break-after: auto; }
+  .kicker { font-family: Inter, sans-serif; font-weight: 700; color: var(--accent); letter-spacing: .09em; font-size: 8.2pt; text-transform: uppercase; border-top: 1px solid var(--ink); padding-top: 6px; }
+  h1 { font-family: Inter, sans-serif; font-weight: 700; font-size: 23pt; line-height: 1.12; margin: 3px 0 2px; letter-spacing: -.01em; }
+  .sub { font-family: Inter, sans-serif; color: var(--ink2); font-size: 12pt; margin-bottom: 8px; }
+  .byline { display: flex; justify-content: space-between; gap: 18px; font-family: Inter, sans-serif; font-size: 8.4pt; color: var(--ink2); border-bottom: 1px solid var(--rule); padding-bottom: 8px; }
+  .byline b { color: var(--ink); }
+  .byline .seek { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .hl { background: var(--hl); color: var(--hl-ink); padding: 0 3px; border-radius: 2px; font-weight: 600; }
+  .link { color: var(--ink2); font-weight: 600; }
+  h2 { font-family: Inter, sans-serif; font-weight: 700; color: var(--accent); letter-spacing: .08em; font-size: 9pt; text-transform: uppercase; margin: 10px 0 4px; }
+  .why { border-left: 3px solid var(--accent); padding: 1px 0 1px 11px; margin: 0; }
+  .question { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 8px 12px; margin: 10px 0 2px; }
+  .question .lbl { font-family: Inter, sans-serif; font-size: 7.6pt; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
+  .question p { margin: 0; font-style: italic; font-size: 10.8pt; line-height: 1.38; }
+  ul { margin: 4px 0; padding-left: 17px; }
+  li { margin: 2px 0; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9px; margin-top: 4px; }
+  .card { border: 1px solid var(--rule); border-radius: 6px; padding: 7px 10px; font-size: 9.1pt; line-height: 1.33; }
+  .card h3 { font-family: Inter, sans-serif; font-size: 9.2pt; color: var(--accent); margin: 0 0 3px; font-weight: 600; }
+  .flow { display: grid; grid-template-columns: 1fr 14px 1.05fr 14px 1fr; gap: 6px; align-items: center; font-family: Inter, sans-serif; font-size: 7.8pt; margin: 2px 0 4px; }
+  .flow .col { display: flex; flex-direction: column; gap: 4px; }
+  .box { border: 1px solid var(--rule); border-radius: 5px; padding: 3px 8px; background: #fff; line-height: 1.25; }
+  .box.out { background: var(--card); }
+  .core { background: var(--accent); color: #fff; border-radius: 5px; padding: 10px 10px; text-align: center; font-weight: 600; line-height: 1.32; font-size: 8.6pt; }
+  .arrow { color: var(--accent); font-size: 12pt; text-align: center; }
+  .approach li { font-size: 9.4pt; }
+  .result { background: var(--result-bg); border: 1px dashed var(--result-rule); border-radius: 6px; padding: 8px 12px 9px; margin-top: 4px; }
+  .result .lbl { font-family: Inter, sans-serif; font-weight: 700; color: #8a6a00; letter-spacing: .08em; font-size: 7.9pt; text-transform: uppercase; margin-bottom: 3px; }
+  .result p.head { margin: 0 0 5px; font-size: 9.3pt; line-height: 1.38; }
+  .resgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .resgrid img { width: 100%; border: 1px solid var(--rule); border-radius: 4px; display: block; background: #fff; }
+  .figcap { font-size: 7.6pt; color: var(--muted); line-height: 1.3; margin-top: 3px; font-family: Inter, sans-serif; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .tile { background: #fff; border: 1px solid #ecdca6; border-radius: 5px; padding: 5px 8px; }
+  .tile .v { font-family: Inter, sans-serif; font-weight: 700; font-size: 13pt; color: var(--ink); line-height: 1.1; }
+  .tile .k { font-family: Inter, sans-serif; font-size: 7.4pt; color: var(--ink2); line-height: 1.25; margin-top: 1px; }
+  .honest { font-size: 8.2pt; color: var(--ink2); margin-top: 6px; line-height: 1.33; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .two li { font-size: 8.8pt; margin: 1px 0; }
+  .about { font-size: 8.8pt; line-height: 1.33; }
+  .refs { font-size: 7.2pt; line-height: 1.32; padding-left: 15px; margin: 2px 0 0; }
+  .refs li { margin: 1px 0; }
+  .foot { position: absolute; bottom: -18px; left: 0; right: 0; display: flex; justify-content: space-between; font-family: Inter, sans-serif; font-size: 7pt; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="kicker">Research brief · Prepared for Prof. Priya Donti · MIT EECS · LIDS</div>
+  <h1>Flexible AI Data Centers on a Constrained Grid</h1>
+  <div class="sub">SLO-grounded flexibility, network-aware signals, and certified interconnection maps</div>
+  <div class="byline">
+    <div><b>Shivankur Sharma</b> · Software Engineer, Microsoft Azure Core Compute (node lifecycle management) · BITS Pilani, B.E. Computer Science + M.Sc. (Hons.) Mathematics<br>
+      <span class="hl">your.email@personal.com</span> · <span class="link">github.com/shivankur-code/flexible-ai-datacenter</span> · <span class="hl">linkedin.com/in/your-handle</span></div>
+    <div class="seek">Seeking PhD admission, Fall 2028</div>
+  </div>
+
+  <h2>Why your work</h2>
+  <p class="why">DC3 and FSNet make a point I find beautiful: learned optimizers are only useful for the grid if they <b>respect its hard constraints</b>. AI data centers are becoming some of the largest and most flexible loads on the grid, yet most flexibility studies treat the grid as a price or carbon signal and ignore the network. I build the control plane that manages compute fleets. In this project I connected what an inference fleet can <i>actually</i> flex to what a constrained grid physically needs, and I tested where hard-constraint learning holds up on that problem and where it breaks.</p>
+
+  <div class="question">
+    <div class="lbl">The question</div>
+    <p>When AI inference campuses flex only within their latency SLOs, where on a congested transmission network can they connect, which signal should steer that flexibility, and can constraint-enforcing learned solvers plan the joint fleet–grid dispatch with guarantees?</p>
+  </div>
+
+  <h2>The gap</h2>
+  <ul>
+    <li>Data-center flexibility is usually <i>assumed</i> (“X% shiftable”) rather than derived from what an inference fleet can shift or shed <i>without breaking its latency targets</i>.</li>
+    <li>Signal-following flexibility can lower costs but raise emissions (Knittel et al., 2025). Network constraints and locational marginal emissions decide which effect wins, and <i>where</i> a campus can connect at all.</li>
+    <li>Joint fleet–grid dispatch is a large multi-period LP with deadlines and load-shedding slack. Whether hard-constraint learners deliver fast, feasible, near-optimal solutions there was untested.</li>
+  </ul>
+
+  <h2>What I bring</h2>
+  <div class="cards">
+    <div class="card"><h3>Multi-objective optimization</h3>Published fuzzy mixed-integer linear programming model balancing economic, environmental and social goals for reuse, refurbishing, recycling and leasing decisions.</div>
+    <div class="card"><h3>Operator’s view of fleets</h3>Four years on disaster recovery and replication (Nutanix), and now node lifecycle on Azure’s compute control plane: failures, repairs, maintenance drains and capacity limits are my daily reality.</div>
+    <div class="card"><h3>Mathematics depth</h3>Dual degree in Computer Science and Mathematics (BITS Pilani, CGPA 8.88): probability, optimization, numerical methods.</div>
+  </div>
+
+  <h2>What I built (open source)</h2>
+  <ul>
+    <li><b>An SLO-aware LLM inference fleet simulator</b>, driven by the public Azure 2024 LLM trace (44M requests). It turns p99 latency SLOs into a <i>linear</i> hourly envelope: firm power, power sheddable by GPU power capping, and deferrable batch energy with deadlines.</li>
+    <li><b>A year of network-constrained dispatch</b> on RTS-GMLC (73 buses, real fuels and 2020 renewables), comparing six ways to steer the same flexibility, with LMPs and LMEs computed from the optimal basis.</li>
+    <li><b>A certified flexible-interconnection map</b> for 73 buses × 4 campus sizes, plus a <b>solver study</b> covering DC3-style, gauge-map, FSNet-style and exact-screening methods. Everything is reproducible, with 38 tests and a paper draft written through Google’s PaperOrchestra pipeline.</li>
+  </ul>
+</section>
+
+<section class="page">
+  <h2 style="margin-top:0">Approach</h2>
+  <div class="flow">
+    <div class="col">
+      <div class="box">RTS-GMLC 73-bus grid + 2020 renewables, lines derated</div>
+      <div class="box">SLO-grounded fleet envelopes (Azure 2024 LLM trace)</div>
+      <div class="box">LMPs + locational marginal emissions</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="core">Year-long DC-OPF · 6 steering signals · exact screened HiGHS · certified hosting map</div>
+    <div class="arrow">→</div>
+    <div class="col">
+      <div class="box out">Where a campus can connect</div>
+      <div class="box out">Emissions by steering signal</div>
+      <div class="box out">Speed vs optimality vs feasibility</div>
+    </div>
+  </div>
+
+  <h2>Results · from the open-source repo</h2>
+  <div class="result">
+    <div class="lbl">Headline finding</div>
+    <p class="head">Letting an AI inference campus flex within its SLOs lets a <b>500&nbsp;MW campus connect at 48 instead of 36</b> of 73 buses without load shedding, raising the grid’s hosting capacity by <b>22%</b>. Steered by <b>locational marginal emissions</b>, the same flexibility cuts the campus’s emissions by <b>5.7–12.3%</b>, versus 2.4–3.2% for cost-only co-optimization. End-to-end hard-constraint learners hit an <b>interior-anchor barrier</b> on this problem, while exact constraint screening matched the optimum with <b>zero violations at 3.2× speed</b>.</p>
+    <div class="resgrid">
+      <div>
+        <img src="fig1_flex_interconnection_map.png" alt="Flexible-interconnection map">
+        <div class="figcap"><b>Figure 1.</b> Minimum SLO-feasible flexibility to connect without load shedding, per bus and campus size (RTS-GMLC, lines 0.6×); flexible entries verified over all 365 days.</div>
+      </div>
+      <div>
+        <div class="tiles">
+          <div class="tile"><div class="v">4.9%</div><div class="k">of load sheddable within p99 SLOs; batch work supplies most flexibility (19.8% of energy)</div></div>
+          <div class="tile"><div class="v">36 → 48</div><div class="k">buses that can host a 500 MW campus; hosting capacity 35.3 → 42.9 GW</div></div>
+          <div class="tile"><div class="v">≈4×</div><div class="k">more emission reduction from following LMEs than from cost co-optimization</div></div>
+          <div class="tile"><div class="v">+0.9%</div><div class="k">emissions from price-following at a coal-margined bus, even as cost falls 2.8%</div></div>
+        </div>
+        <p class="honest"><b>Solvers, honestly.</b> With load shedding as the only slack, every interior point sheds load: gauge-map/projection outputs are feasible but 27–114× the optimal cost, and DC3-style correction violates lines by up to 178&nbsp;MW. Exact screening + constraint generation: optimal, feasible, 3.2× faster (6.9× bound).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="two">
+    <div>
+      <h2>Where this could go in your group</h2>
+      <ul>
+        <li><b>Learned interior anchors and certificates</b> to make gauge-map and FSNet-style guarantees usable for OPF with load-shedding slack.</li>
+        <li><b>Data centers as reliable grid resources</b>: flexible interconnection with uncertainty-aware guarantees; multi-campus hosting.</li>
+        <li><b>Benchmarks</b>: fleet envelopes and the certified hosting map as a learning-to-optimize benchmark.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>About me</h2>
+      <p class="about" style="margin:4px 0 0">I see mathematics as a language for modelling complex real-world systems. That belief took me from multi-objective fuzzy optimization for circular economies (published 2024, with BITS Pilani faculty) to four years building disaster-recovery and replication systems at Nutanix, and now to node lifecycle management on Microsoft Azure’s compute control plane, where I see every day how real fleets drift away from the plans made for them. I want to spend my PhD making AI infrastructure sustainable <i>in practice</i>, not just on paper.</p>
+    </div>
+  </div>
+
+  <h2>References</h2>
+  <ol class="refs">
+    <li>P. L. Donti, D. Rolnick, J. Z. Kolter. DC3: A learning method for optimization with hard constraints. ICLR 2021 (arXiv:2104.12225).</li>
+    <li>H. Nguyen, P. L. Donti. FSNet: Feasibility-seeking neural network for constrained optimization with guarantees. NeurIPS 2025.</li>
+    <li>C. R. Knittel, J. R. L. Senga, S. Wang. Flexible Data Centers and the Grid: Lower Costs, Higher Emissions? NBER WP 34065, 2025.</li>
+    <li>J. Stojkovic, C. Zhang, Í. Goiri, J. Torrellas, E. Choukse. DynamoLLM: Designing LLM inference clusters for performance and energy efficiency. HPCA 2025 (Azure 2024 LLM trace).</li>
+    <li>C. Barrows et al. The IEEE Reliability Test System: A proposed 2019 update. IEEE Transactions on Power Systems, 2020 (RTS-GMLC).</li>
+    <li>V. Poonia, R. Kulshrestha, K. S. Sangwan, S. Sharma. A multi-objective fuzzy mathematical model for circular economy with leasing as a strategy. <i>Management of Environmental Quality</i> 35(7):1592–1621, 2024.</li>
+  </ol>
+</section>
+</body>
+</html>

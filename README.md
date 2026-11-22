@@ -32,6 +32,7 @@ See **[PLAN.md](PLAN.md)**.
 - **Phase 5 done (Figure 1).** The flexible-interconnection map for all
   73 buses x 4 campus sizes, every point exact, flexible entries verified
   over the full year.
+- **Research brief (2 pages):** [`brief/brief.pdf`](brief/brief.pdf), updated with these results. Rebuild with `node brief/render.js`.
 - **Phase 6 done: the paper.** [`paper/paper.pdf`](paper/paper.pdf) (ICLR 2025 format) was produced with Google's
   PaperOrchestra pipeline from `paper/raw_materials/`, with every number generated from `results/` and every
   reference API-verified. See [`paper/orchestra_run/README.md`](paper/orchestra_run/README.md).
