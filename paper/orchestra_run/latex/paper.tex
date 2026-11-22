@@ -42,11 +42,18 @@ Data centers are among the fastest-growing electricity loads, and AI workloads a
 
 Three pieces are missing for AI inference campuses. \textbf{(i) Flexibility is assumed, not derived.} Grid studies typically posit that some fraction of a data center's load is shiftable or sheddable. For an LLM inference fleet, flexibility is bounded by p99 latency SLOs, namely time-to-first-token (TTFT) and time-per-output-token (TPOT), and by how much deferrable batch work exists. Serving-system research optimises energy and latency inside the cluster \citep{kwon2023pagedattention,patel2024splitwise,stojkovic2025dynamollm,you2023zeus}, but it does not produce the grid-facing envelope a system operator needs. \textbf{(ii) The grid is a signal, not a network.} Most flexibility studies follow price or average-carbon signals. Economic analysis shows that price-following flexible data centers can lower costs while raising emissions \citep{knittel2025flexible}, and locational marginal emissions have been proposed to guide geographic load shifting \citep{lindberg2021environmental,zhang2022remunerating}. Without transmission constraints, however, one cannot say \emph{where} a campus can connect, nor \emph{which} signal should steer it once congestion and locational marginal units are considered. \textbf{(iii) Fast solvers with hard guarantees are needed but untested at this scale.} Learning-to-optimise methods that enforce hard constraints promise fast feasible solutions \citep{donti2021dc3,tabas2022safe,liang2023homeomorphic}, yet joint fleet--grid dispatch is a multi-period LP with deadlines and load-shedding slack, where their behaviour is unknown.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{figures/fig1_flex_interconnection_map.png}
+    \caption{Flexible-interconnection map on RTS-GMLC (lines at 0.6$\times$). For campuses of 100, 250, 500 and 1,000\,MW, each bus shows the minimum rung of the SLO-feasible flexibility ladder at which the campus connects with no involuntary load shedding and no missed batch deadline (gray: inflexible suffices; blue ramp: power capping, 4/12/24\,h deferral, relaxed-SLO capping; red cross: not hostable). Flexible entries are verified over all 365 days.}
+    \label{fig:map}
+\end{figure}
+
 We address all three on a public test system (RTS-GMLC; \citealp{barrows2020rts}) and a public production LLM trace \citep{stojkovic2025dynamollm}. Our contributions are:
 \begin{itemize}
     \item \textbf{SLO-grounded flexibility envelopes.} An iteration-level serving simulator with a physically consistent power-cap model turns p99 SLOs into a \emph{linear} hourly envelope that plugs exactly into DC optimal power flow (\cref{sec:envelope}). Interactive serving is barely flexible (4.9\% of load sheddable); real flexibility comes from deferrable batch work.
     \item \textbf{Signals matter more than flexibility.} In a full year of network-constrained dispatch, the same envelope steered by locational marginal emissions (LMEs) cuts hosting emissions 3--4$\times$ more than cost co-optimisation. The ``lower cost, higher emissions'' effect appears exactly where coal is on the margin, and a carbon price aligns all signals (\cref{sec:exp_signals}).
-    \item \textbf{A certified flexible-interconnection map.} For every bus and four campus sizes, we compute the minimum SLO-feasible flexibility needed to connect without load shedding. Stress-day screening is followed by full-year verification, and every solve is exact (\cref{sec:map,sec:exp_map}). Modest flexibility raises hosting capacity by 22\%.
+    \item \textbf{A certified flexible-interconnection map} (\cref{fig:map}). For every bus and four campus sizes, we compute the minimum SLO-feasible flexibility needed to connect without load shedding. Stress-day screening is followed by full-year verification, and every solve is exact (\cref{sec:map,sec:exp_map}). Modest flexibility raises hosting capacity by 22\%.
     \item \textbf{The interior-anchor barrier.} We show why end-to-end hard-constraint learners struggle on OPF with value-of-lost-load slack, and that exact constraint screening is the practical route to fast, certifiably optimal solutions on this problem (\cref{sec:exp_solvers}).
 \end{itemize}
 %%%%%%%%% INTRODUCTION %%%%%%%%%
@@ -194,12 +201,6 @@ Hosting an inflexible 300\,MW campus (1.375\,TWh/yr) adds \$24.65--34.38M/yr of 
 \label{sec:exp_map}
 \Cref{fig:map} and \cref{tab:map} report the certified map for all 73 buses. SLO-feasible flexibility enlarges the set of hostable buses for every size: from 53 to 60 at 250\,MW, from \textbf{36 to 48 at 500\,MW}, and from 23 to 30 at 1{,}000\,MW. Summed over buses (one campus at a time), hosting capacity rises from 35.25 to \textbf{42.90\,GW (+22\%)}. Most of the gain comes from inexpensive rungs, power capping (L1) and 4\,h deferral (L2); no site requires exactly 24\,h deferral as its minimum.
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\linewidth]{figures/fig1_flex_interconnection_map.png}
-    \caption{Flexible-interconnection map on RTS-GMLC (lines at 0.6$\times$). For campuses of 100, 250, 500 and 1,000\,MW, each bus shows the minimum rung of the SLO-feasible flexibility ladder at which the campus connects with no involuntary load shedding and no missed batch deadline (gray: inflexible suffices; blue ramp: power capping, 4/12/24\,h deferral, relaxed-SLO capping; red cross: not hostable). Flexible entries are verified over all 365 days.}
-    \label{fig:map}
-\end{figure}
 
 \begin{table}[t]
     \centering

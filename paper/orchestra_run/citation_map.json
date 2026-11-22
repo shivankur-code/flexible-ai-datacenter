@@ -1,0 +1,209 @@
+{
+ "kwon2023pagedattention": {
+  "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+  "authors": [
+   "Woosuk Kwon",
+   "Zhuohan Li",
+   "Siyuan Zhuang",
+   "Ying Sheng",
+   "Lianmin Zheng",
+   "Cody Hao Yu",
+   "Joseph Gonzalez",
+   "Hao Zhang",
+   "Ion Stoica"
+  ],
+  "year": 2023,
+  "venue": "Proceedings of the 29th Symposium on Operating Systems Principles",
+  "doi": "10.1145/3600006.3613165",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "patel2024splitwise": {
+  "title": "Splitwise: Efficient Generative LLM Inference Using Phase Splitting",
+  "authors": [
+   "Esha Choukse",
+   "Pratyush Patel",
+   "Chaojie Zhang",
+   "Aashaka Shah",
+   "Inigo Goiri",
+   "Saeed Maleki",
+   "Rodrigo Fonseca",
+   "Ricardo Bianchini"
+  ],
+  "year": 2025,
+  "venue": "IEEE Micro",
+  "doi": "10.1109/mm.2025.3575361",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "stojkovic2025dynamollm": {
+  "title": "DynamoLLM: Designing LLM Inference Clusters for Performance and Energy Efficiency",
+  "authors": [
+   "Jovan Stojkovic",
+   "Chaojie Zhang",
+   "\u00cd\u00f1igo Goiri",
+   "Josep Torrellas",
+   "Esha Choukse"
+  ],
+  "year": 2025,
+  "venue": "2025 IEEE International Symposium on High Performance Computer Architecture (HPCA)",
+  "doi": "10.1109/hpca61900.2025.00102",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "you2023zeus": {
+  "title": "Zeus: Understanding and Optimizing GPU Energy Consumption of DNN Training",
+  "authors": [
+   "Jie You",
+   "Jae-Won Chung",
+   "Mosharaf Chowdhury"
+  ],
+  "year": 2022,
+  "venue": "arXiv (Cornell University)",
+  "doi": "10.48550/arxiv.2208.06102",
+  "source": "openalex",
+  "match_score": 100,
+  "abstract": "Training deep neural networks (DNNs) is becoming increasingly more resource- and energy-intensive every year. Unfortunately, existing works primarily focus on optimizing DNN training for faster completion, often without considering the impact on energy efficiency. In this paper, we observe that common practices to improve training performance can often lead to inefficient energy usage. More importantly, we demonstrate that there is a tradeoff between energy consumption and performance optimization. To this end, we propose Zeus, an optimization framework to navigate this tradeoff by automatically finding optimal job- and GPU-level configurations for recurring DNN training jobs. Zeus uses an online exploration-exploitation approach in conjunction with just-in-time energy profiling, averting the need for expensive offline measurements, while adapting to data drifts over time. Our evaluation shows that Zeus can improve the energy efficiency of DNN training by 15.3%-75.8% for diverse workloads."
+ },
+ "barrows2020rts": {
+  "title": "The IEEE Reliability Test System: A Proposed 2019 Update",
+  "authors": [
+   "Clayton Barrows",
+   "Eugene Preston",
+   "Andrea Staid",
+   "Gord Stephen",
+   "Jean-Paul Watson",
+   "Aaron Bloom",
+   "Ali Ehlen",
+   "Jussi Ikaheimo",
+   "Jennie Jorgenson",
+   "Dheepak Krishnamurthy",
+   "Jessica Lau",
+   "Brendan McBennett",
+   "Matthew O'Connell"
+  ],
+  "year": 2020,
+  "venue": "IEEE Transactions on Power Systems",
+  "doi": "10.1109/tpwrs.2019.2925557",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "huangfu2018highs": {
+  "title": "Parallelizing the dual revised simplex method",
+  "authors": [
+   "Q. Huangfu",
+   "J. A. J. Hall"
+  ],
+  "year": 2017,
+  "venue": "Mathematical Programming Computation",
+  "doi": "10.1007/s12532-017-0130-5",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "knittel2025flexible": {
+  "title": "Flexible Data Centers and the Grid: Lower Costs, Higher Emissions?",
+  "authors": [
+   "Christopher Knittel",
+   "Juan Ramon Senga",
+   "Shen Wang"
+  ],
+  "year": 2025,
+  "venue": "National Bureau of Economic Research",
+  "doi": "10.3386/w34065",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "lindberg2021environmental": {
+  "title": "The Environmental Potential of Hyper-Scale Data Centers: Using Locational Marginal CO2 Emissions to Guide Geographical Load Shifting",
+  "authors": [
+   "Julia Lindberg",
+   "Line Roald",
+   "Bernard Lesieutre"
+  ],
+  "year": 2021,
+  "venue": "Proceedings of the Annual Hawaii International Conference on System Sciences",
+  "doi": "10.24251/hicss.2021.384",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "zhang2022remunerating": {
+  "title": "Remunerating space\u2013time, load-shifting flexibility from data centers in electricity markets",
+  "authors": [
+   "Weiqi Zhang",
+   "Victor M. Zavala"
+  ],
+  "year": 2022,
+  "venue": "Applied Energy",
+  "doi": "10.1016/j.apenergy.2022.119930",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "wiesner2021letswait": {
+  "title": "Let's wait awhile: how temporal workload shifting can reduce carbon emissions in the cloud",
+  "authors": [
+   "Philipp Wiesner",
+   "Ilja Behnke",
+   "Dominik Scheinert",
+   "Kordian Gontarska",
+   "Lauritz Thamsen"
+  ],
+  "year": 2021,
+  "venue": "International Middleware Conference",
+  "doi": "10.1145/3464298.3493399",
+  "source": "openalex",
+  "match_score": 100,
+  "abstract": "Depending on energy sources and demand, the carbon intensity of the public power grid fluctuates over time. Exploiting this variability is an important factor in reducing the emissions caused by data centers. However, regional differences in the availability of low-carbon energy sources make it hard to provide general best practices for when to consume electricity. Moreover, existing research in this domain focuses mostly on carbon-aware workload migration across geo-distributed data centers, or addresses demand response purely from the perspective of power grid stability and costs."
+ },
+ "hanafy2024carbonscaler": {
+  "title": "CarbonScaler: Leveraging Cloud Workload Elasticity for Optimizing Carbon-Efficiency",
+  "authors": [
+   "Walid A. Hanafy",
+   "Qianlin Liang",
+   "Noman Bashir",
+   "David Irwin",
+   "Prashant Shenoy"
+  ],
+  "year": 2024,
+  "venue": "ACM SIGMETRICS Performance Evaluation Review",
+  "doi": "10.1145/3673660.3655048",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": "Due to inherent variations in energy's carbon intensity, temporal shifting has become a key method in reducing the carbon footprint of batch workloads. However, temporally shifting workloads involves searching for periods with lower carbon intensity, which increases the workload's completion time. In this paper, we present CarbonScaler, a new approach that reduces carbon emissions of batch workloads without extending their completion time. Our approach relies on applications' ability to change their compute demand by scaling the workload based on fluctuations in energy's carbon intensity. We present a carbon-aware scheduling algorithm, a Kubernetes-based prototype, and an analytic tool to guide the carbon-efficient deployment of batch applications in the cloud. We evaluate CarbonScaler using real-world applications and show that it can yield 33% carbon savings without extending the completion time and up to 32% extra carbon savings over state-of-the-art suspend-resume policies when completion time is flexible."
+ },
+ "pan2021deepopf": {
+  "title": "DeepOPF: A Deep Neural Network Approach for Security-Constrained DC Optimal Power Flow",
+  "authors": [
+   "Xiang Pan",
+   "Tianyu Zhao",
+   "Minghua Chen",
+   "Shengyu Zhang"
+  ],
+  "year": 2021,
+  "venue": "IEEE Transactions on Power Systems",
+  "doi": "10.1109/tpwrs.2020.3026379",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ },
+ "tabas2022safe": {
+  "title": "Computationally Efficient Safe Reinforcement Learning for Power Systems",
+  "authors": [
+   "Daniel Tabas",
+   "Baosen Zhang"
+  ],
+  "year": 2022,
+  "venue": "2022 American Control Conference (ACC)",
+  "doi": "10.23919/acc53348.2022.9867652",
+  "source": "crossref",
+  "match_score": 100,
+  "abstract": ""
+ }
+}
