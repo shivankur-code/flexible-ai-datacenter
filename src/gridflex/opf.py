@@ -46,7 +46,7 @@ class DataCenter:
 
     * ``firm``: power at nominal operation, excluding deferrable work (MW)
     * ``shed`` in ``[0, shed_max]``: power-capping that spends SLO headroom (MW).
-      Total ``sum(shed)`` is limited to ``shed_budget`` (MWh) and costs
+      ``sum(shed)`` over each 24 h block is limited to ``shed_budget`` (MWh), and shedding costs
       ``shed_cost`` $/MWh.
     * ``flex`` in ``[0, flex_max]``: deferrable (batch) work. Its cumulative
       energy ``sum_{tau<=t} flex`` must lie in ``[cum_min[t], cum_max[t]]``:
@@ -217,7 +217,8 @@ def solve_opf(
             for t in range(1, T):
                 lp.add_rows([0, 0], [d_idx[t, k], d_idx[t - 1, k]], [1.0, -1.0], -dc.ramp, dc.ramp, 1)
         if np.isfinite(dc.shed_budget) and dc.shed_max.any():
-            lp.add_rows(np.zeros(T, int), sh_idx[:, k], np.ones(T), -inf, dc.shed_budget, 1)
+            blocks = np.arange(T) // 24  # budget applies to each 24 h block
+            lp.add_rows(blocks, sh_idx[:, k], np.ones(T), -inf, dc.shed_budget, int(blocks[-1]) + 1)
         if dc.cum_min is not None or dc.cum_max is not None:
             lo = dc.cum_min if dc.cum_min is not None else np.full(T, -inf)
             hi = dc.cum_max if dc.cum_max is not None else np.full(T, inf)

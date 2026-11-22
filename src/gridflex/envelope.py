@@ -79,7 +79,7 @@ class Envelope:
             return DataCenter.inflexible(self.bus, self.inflexible_load[h], name=f"dc@{self.bus}")
         shed = mode in ("flexible", "shed")
         shift = mode in ("flexible", "shift")
-        budget = self.shed_hours_per_day * T / 24.0 * float(self.shed_max[h].max()) if shed else 0.0
+        budget = self.shed_hours_per_day * float(self.shed_max[h].max()) if shed else 0.0  # MWh per 24 h block
         if not shift:
             return DataCenter(self.bus, firm=self.inflexible_load[h], shed_max=self.shed_max[h] if shed else None,
                               shed_budget=budget, shed_cost=self.shed_cost, name=f"dc@{self.bus}")
