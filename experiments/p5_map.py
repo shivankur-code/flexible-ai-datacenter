@@ -64,24 +64,31 @@ def map_bus(args):
     return rows
 
 
-def validate(ratings, entries):
-    """Full-year (all days) check of map entries: the level found should pass, and the one below should fail."""
-    from gridflex.hosting import LEVELS, NOT_HOSTABLE, check_level, envelopes_for
+def _validate_one(args):
+    ratings, bus, size, map_level, L = args
+    from gridflex.hosting import LEVELS, check_level, envelopes_for
 
     cfg, tables, net, yp, _ = _setup(ratings)
+    envs = envelopes_for(cfg, tables, bus, size, net, yp)
     all_days = list(range(net.n_hours // 24 - 1))
-    out = []
-    for bus, size, level in entries:
-        envs = envelopes_for(cfg, tables, bus, size, net, yp)
-        for L in (level - 1, level):
-            if L < 0 or L >= NOT_HOSTABLE:
-                continue
-            ch = check_level(net, envs[L], LEVELS[L], all_days, stop_early=False)
-            fails = [c for c in ch if not c.ok]
-            out.append(dict(bus=bus, size_mw=size, map_level=level, checked_level=L, days=len(ch), failing_days=len(fails),
-                            shed_mwh=sum(c.grid_shed_mwh for c in ch), late_mwh_h=sum(c.late_mwh_h for c in ch)))
-            print(out[-1], flush=True)
-    return pd.DataFrame(out)
+    ch = check_level(net, envs[L], LEVELS[L], all_days, stop_early=False)
+    fails = [c.day for c in ch if not c.ok]
+    return dict(bus=bus, size_mw=size, map_level=map_level, checked_level=L, days=len(ch), failing_days=len(fails),
+                shed_mwh=sum(c.grid_shed_mwh for c in ch), late_mwh_h=sum(c.late_mwh_h for c in ch),
+                first_failing_days=",".join(map(str, fails[:5])))
+
+
+def validate(ratings, entries, workers):
+    """Full-year (every day, 48 h windows) check of map entries: the map's level should pass on every day,
+    and the level below should fail on at least one."""
+    from gridflex.hosting import NOT_HOSTABLE
+
+    tasks = [(ratings, b, s, lv, L) for b, s, lv in entries for L in (lv - 1, lv) if 0 <= L < NOT_HOSTABLE]
+    with ProcessPoolExecutor(workers) as ex:
+        rows = list(ex.map(_validate_one, tasks))
+    for r in rows:
+        print(r, flush=True)
+    return pd.DataFrame(rows)
 
 
 def figure(df: pd.DataFrame, ratings: float):
@@ -94,8 +101,8 @@ def figure(df: pd.DataFrame, ratings: float):
     from gridflex.hosting import LEVELS
 
     INK, INK2, GRID, SURFACE, RED = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb", "#e34948"
-    # sequential blue ramp (reference palette): light = little flexibility needed, dark = a lot
-    RAMP = ["#cde2fb", "#86b6ef", "#3987e5", "#256abf", "#184f95", "#0d366b"]
+    # L0 (no flexibility needed) in neutral gray; L1-L5 on a sequential blue ramp (reference palette steps 250-700)
+    RAMP = ["#b9b8b3", "#86b6ef", "#3987e5", "#256abf", "#184f95", "#0d366b"]
     plt.rcParams.update({"figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE,
                          "text.color": INK, "font.size": 9, "axes.titlesize": 10, "axes.titleweight": "bold",
                          "axes.titlelocation": "left"})
@@ -115,7 +122,7 @@ def figure(df: pd.DataFrame, ratings: float):
         n0 = int((lv == 0).sum())
         nh = int(host.sum())
         ax.set_title(f"{size:,.0f} MW campus", loc="left")
-        ax.text(0.02, 0.02, f"{n0} buses as an inflexible load\n{nh} with SLO-feasible flexibility\n{len(lv) - nh} not hostable",
+        ax.text(0.02, 0.02, f"{n0} buses as an inflexible load\n+{nh - n0} more with SLO-feasible flexibility\n{len(lv) - nh} not hostable",
                 transform=ax.transAxes, fontsize=7.5, color=INK2, va="bottom")
         ax.set_xticks([]); ax.set_yticks([])
         for sp in ax.spines.values():
@@ -149,9 +156,9 @@ def main():
         for b in (101, 122, 207, 303, 313):
             for size in SIZES:
                 r = df[(df.bus == b) & (df.size_mw == size) & (~df.inferred)]
-                if len(r) and 0 < int(r.level.iloc[0]) < 6:
+                if len(r) and int(r.level.iloc[0]) < 6:
                     picks.append((b, size, int(r.level.iloc[0])))
-        validate(args.ratings, picks).to_csv(OUT / f"validation_ratings{args.ratings:g}.csv", index=False)
+        validate(args.ratings, picks, args.workers).to_csv(OUT / f"validation_ratings{args.ratings:g}.csv", index=False)
         return
     _, _, net, _, days = _setup(args.ratings)
     buses = args.buses or [int(b) for b in net.bus_ids]
