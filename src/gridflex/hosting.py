@@ -42,8 +42,12 @@ LEVELS = (
 NOT_HOSTABLE = len(LEVELS)
 
 
-def stress_days(net: Network, per_month: int = 2) -> list[int]:
-    """Each month's highest-load day and highest net-load (load minus renewables) day, most stressful first."""
+def stress_days(net: Network, per_month: int = 4) -> list[int]:
+    """Each month's ``per_month`` most stressful days (alternating highest load and highest net load), most stressful first.
+
+    Validation (``experiments/p5_map.py --validate``) showed 2 per month misses
+    multi-day stress spells for marginal flexible sites, so the default is 4.
+    """
     load = net.load.sum(0)
     ren = net.gen_avail[net.is_renewable].sum(0)
     days = net.n_hours // 24
@@ -54,8 +58,15 @@ def stress_days(net: Network, per_month: int = 2) -> list[int]:
     for m in range(1, 13):
         idx = np.flatnonzero(month == m)
         idx = idx[idx < days - 1]  # need a lookahead day
-        cands = [idx[np.argmax(dl[idx])], idx[np.argmax(dn[idx])]][:per_month]
-        picks += [int(c) for c in cands]
+        by_l, by_n = list(idx[np.argsort(-dl[idx])]), list(idx[np.argsort(-dn[idx])])
+        chosen = []
+        while len(chosen) < per_month and (by_l or by_n):
+            for lst in (by_l, by_n):
+                while lst and lst[0] in chosen:
+                    lst.pop(0)
+                if lst and len(chosen) < per_month:
+                    chosen.append(lst.pop(0))
+        picks += [int(c) for c in chosen]
     picks = list(dict.fromkeys(picks))
     return sorted(picks, key=lambda d: -dn[d])
 
